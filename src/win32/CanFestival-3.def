@@ -32,6 +32,7 @@ EXPORTS
         _heartbeatError
         _post_SlaveBootup
         _post_SlaveStateChange
+        _nodeguardError
         getNodeState
         heartbeatInit
         heartbeatStop
