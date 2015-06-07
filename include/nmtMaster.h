@@ -79,6 +79,9 @@ UNS8 masterSendNMTnodeguard (CO_Data* d, UNS8 nodeId);
  * To ask states of all nodes on the network (NMT broadcast), nodeId must be equal to 0
  * @param *d Pointer to a CAN object data structure
  * @param nodeId Id of the slave node
+ * @return
+ *         - 0 is returned if the NodeGuard message was send.
+ *         - 1 is returned if an error occurs.
  */
 UNS8 masterRequestNodeState (CO_Data* d, UNS8 nodeId);
 

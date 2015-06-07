@@ -43,17 +43,6 @@ TIMER_HANDLE last_timer_raw = -1;
 
 #define min_val(a,b) ((a<b)?a:b)
 
-/*!
-** -------  Use this to declare a new alarm ------
-**
-** @param d
-** @param id
-** @param callback
-** @param value
-** @param period
-**
-** @return
-**/
 TIMER_HANDLE SetAlarm(CO_Data* d, UNS32 id, TimerCallback_t callback, TIMEVAL value, TIMEVAL period)
 {
 	TIMER_HANDLE row_number;
@@ -93,13 +82,6 @@ TIMER_HANDLE SetAlarm(CO_Data* d, UNS32 id, TimerCallback_t callback, TIMEVAL va
 	return TIMER_NONE;
 }
 
-/*!
-**  -----  Use this to remove an alarm ----
-**
-** @param handle
-**
-** @return
-**/
 TIMER_HANDLE DelAlarm(TIMER_HANDLE handle)
 {
 	/* Quick and dirty. system timer will continue to be trigged, but no action will be preformed. */
@@ -113,10 +95,6 @@ TIMER_HANDLE DelAlarm(TIMER_HANDLE handle)
 	return TIMER_NONE;
 }
 
-/*!
-** ------  TimeDispatch is called on each timer expiration ----
-**
-**/
 int tdcount=0;
 void TimeDispatch(void)
 {

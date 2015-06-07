@@ -36,16 +36,6 @@
 **
 */
 
-/*!
-**
-**
-** @param d
-** @param TPDO_com TPDO communication parameters OD entry
-** @param TPDO_map TPDO mapping parameters OD entry
-**
-** @return
-**/
-
 UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
 {
   const indextable *TPDO_com = d->objdict + d->firstIndex->PDO_TRS + numPdo;
@@ -109,14 +99,6 @@ UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
   return 0;
 }
 
-/*!
-**
-**
-** @param d
-** @param cobId
-**
-** @return
-**/
 UNS8
 sendPDOrequest (CO_Data * d, UNS16 RPDOIndex)
 {
@@ -157,15 +139,6 @@ sendPDOrequest (CO_Data * d, UNS16 RPDOIndex)
   return 0xFF;
 }
 
-
-/*!
-**
-**
-** @param d
-** @param m
-**
-** @return
-**/
 UNS8
 proceedPDO (CO_Data * d, Message * m)
 {
@@ -413,17 +386,6 @@ proceedPDO (CO_Data * d, Message * m)
   return 0;
 }
 
-/*!
-**
-**
-** @param NbBits
-** @param SrcByteIndex
-** @param SrcBitIndex
-** @param SrcBigEndian
-** @param DestByteIndex
-** @param DestBitIndex
-** @param DestBigEndian
-**/
 void
 CopyBits (UNS8 NbBits, UNS8 * SrcByteIndex, UNS8 SrcBitIndex,
           UNS8 SrcBigEndian, UNS8 * DestByteIndex, UNS8 DestBitIndex,
@@ -741,15 +703,6 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
     }
   return 0;
 }
-
-/*!
-**
-**
-** @param d
-** @param OD_entry
-** @param bSubindex
-** @return always 0
-**/
 
 UNS32
 TPDO_Communication_Parameter_Callback (CO_Data * d,

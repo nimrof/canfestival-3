@@ -35,12 +35,6 @@
 #include "canfestival.h"
 #include "sysdep.h"
 
-/*!
-** put the slave in the state wanted by the master
-**
-** @param d
-** @param m
-**/
 void proceedNMTstateChange(CO_Data* d, Message *m)
 {
   if( d->nodeState == Pre_operational ||
@@ -107,14 +101,6 @@ void proceedNMTstateChange(CO_Data* d, Message *m)
   }
 }
 
-
-/*!
-**
-**
-** @param d
-**
-** @return
-**/
 UNS8 slaveSendBootUp(CO_Data* d)
 {
   Message m;

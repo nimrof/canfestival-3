@@ -136,7 +136,6 @@ UNS32 _getODentry( CO_Data* d,
  *                      into this variable.
  * @param *pDataType Pointer to the type of the data. See objdictdef.h
  * @param checkAccess Flag that indicate if a check rights must be perfomed (0 : no , other than 0 : yes)
- * @param endianize  Set to 1 : endianized into network byte order 
  * @return 
  * - OD_SUCCESSFUL is returned upon success. 
  * - SDO abort code is returned if error occurs . (See file def.h)
@@ -165,8 +164,6 @@ UNS32 _getODentry( CO_Data* d,
  * @param *pDataType Pointer to the type of the data. See objdictdef.h
  * @param checkAccess if other than 0, do not read if the data is Write Only
  *                    [Not used today. Put always 0].
- * @param endianize Set to 0, data is not endianized and copied in machine native
- *                  endianness 
  * @return 
  * - OD_SUCCESSFUL is returned upon success. 
  * - SDO abort code is returned if error occurs . (See file def.h)
@@ -225,7 +222,6 @@ UNS32 _setODentry( CO_Data* d,
  *                     be copied into the object dictionary
  * @param *pExpectedSize The size of the value (in Byte).
  * @param checkAccess Flag that indicate if a check rights must be perfomed (0 : no , other than 0 : yes)
- * @param endianize Set to 1 : endianized into network byte order
  * @return 
  * - OD_SUCCESSFUL is returned upon success. 
  * - SDO abort code is returned if error occurs . (See file def.h)
@@ -250,7 +246,6 @@ UNS32 _setODentry( CO_Data* d,
  *                     be copied into the object dictionary
  * @param *pExpectedSize The size of the value (in Byte).
  * @param checkAccess Flag that indicate if a check rights must be perfomed (0 : no , other than 0 : yes)
- * @param endianize Data is not endianized and copied in machine native endianness 
  * @return 
  * - OD_SUCCESSFUL is returned upon success. 
  * - SDO abort code is returned if error occurs . (See file def.h)

@@ -50,36 +50,9 @@
 
 UNS8 GetSDOClientFromNodeId( CO_Data* d, UNS8 nodeId );
 
-/*!
- ** Called by writeNetworkDict
- **
- ** @param d
- ** @param nodeId
- ** @param index
- ** @param subIndex
- ** @param count
- ** @param dataType
- ** @param data
- ** @param Callback
- ** @param endianize
- **
- ** @return
- **/
 INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 		UNS8 subIndex, UNS32 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize, UNS8 useBlockMode);
 
-/*!
- ** Called by readNetworkDict
- **
- ** @param d
- ** @param nodeId
- ** @param index
- ** @param subIndex
- ** @param dataType
- ** @param Callback
- **
- ** @return
- **/
 INLINE UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex,
 		UNS8 dataType, SDOCallback_t Callback, UNS8 useBlockMode);
 
@@ -127,13 +100,6 @@ INLINE UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
 */
 #define getSDOblockSC(byte) (byte & 3)
 
-
-/*!
- **
- **
- ** @param d
- ** @param id
- **/
 void SDOTimeoutAlarm(CO_Data* d, UNS32 id)
 {
 	UNS16 offset;
@@ -178,11 +144,6 @@ d->transfers[id].timer = SetAlarm(d,id,&SDOTimeoutAlarm,MS_TO_TIMEVAL(SDO_TIMEOU
 	MSG_WAR(0x3A07, "restartSDO_TIMER for line : ", line);\
 if(d->transfers[id].timer != TIMER_NONE) { StopSDO_TIMER(id) StartSDO_TIMER(id) }
 
-/*!
- ** Reset all sdo buffers
- **
- ** @param d
- **/
 void resetSDO (CO_Data* d)
 {
 	UNS8 j;
@@ -192,14 +153,6 @@ void resetSDO (CO_Data* d)
 		resetSDOline(d, j);
 }
 
-/*!
- **
- **
- ** @param d
- ** @param line
- **
- ** @return
- **/
 UNS32 SDOlineToObjdict (CO_Data* d, UNS8 line)
 {
 	UNS32 size;
@@ -233,14 +186,6 @@ UNS32 SDOlineToObjdict (CO_Data* d, UNS8 line)
 
 }
 
-/*!
- **
- **
- ** @param d
- ** @param line
- **
- ** @return
- **/
 UNS32 objdictToSDOline (CO_Data* d, UNS8 line)
 {
     UNS32  size = SDO_MAX_LENGTH_TRANSFER;
@@ -289,16 +234,6 @@ UNS32 objdictToSDOline (CO_Data* d, UNS8 line)
 	return 0;
 }
 
-/*!
- **
- **
- ** @param d
- ** @param line
- ** @param nbBytes
- ** @param data
- **
- ** @return
- **/
 UNS8 lineToSDO (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8* data) {
 	UNS8 i;
 	UNS32 offset;
@@ -339,16 +274,6 @@ UNS8 lineToSDO (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8* data) {
 	return 0;
 }
 
-/*!
- **
- **
- ** @param d
- ** @param line
- ** @param nbBytes
- ** @param data
- **
- ** @return
- **/
 UNS8 SDOtoLine (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8* data)
 {
 	UNS8 i;
@@ -401,18 +326,6 @@ UNS8 SDOtoLine (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8* data)
 	return 0;
 }
 
-/*!
- **
- **
- ** @param d
- ** @param CliServNbr
- ** @param whoami
- ** @param index
- ** @param subIndex
- ** @param abortCode
- **
- ** @return
- **/
 UNS8 failedSDO (CO_Data* d, UNS8 CliServNbr, UNS8 whoami, UNS16 index,
 		UNS8 subIndex, UNS32 abortCode)
 {
@@ -439,12 +352,6 @@ UNS8 failedSDO (CO_Data* d, UNS8 CliServNbr, UNS8 whoami, UNS16 index,
 	return 0;
 }
 
-/*!
- **
- **
- ** @param d
- ** @param line
- **/
 void resetSDOline ( CO_Data* d, UNS8 line )
 {
 	UNS32 i;
@@ -456,18 +363,6 @@ void resetSDOline ( CO_Data* d, UNS8 line )
 	d->transfers[line].abortCode = 0;
 }
 
-/*!
- **
- **
- ** @param d
- ** @param line
- ** @param CliServNbr
- ** @param index
- ** @param subIndex
- ** @param state
- **
- ** @return
- **/
 UNS8 initSDOline (CO_Data* d, UNS8 line, UNS8 CliServNbr, UNS16 index, UNS8 subIndex, UNS8 state)
 {
 	MSG_WAR(0x3A25, "init SDO line nb : ", line);
@@ -502,15 +397,6 @@ UNS8 initSDOline (CO_Data* d, UNS8 line, UNS8 CliServNbr, UNS16 index, UNS8 subI
 	return 0;
 }
 
-/*!
- **
- **
- ** @param d
- ** @param whoami
- ** @param line
- **
- ** @return
- **/
 UNS8 getSDOfreeLine ( CO_Data* d, UNS8 whoami, UNS8 *line )
 {
 
@@ -527,16 +413,6 @@ UNS8 getSDOfreeLine ( CO_Data* d, UNS8 whoami, UNS8 *line )
 	return 0xFF;
 }
 
-/*!
- **
- **
- ** @param d
- ** @param CliServNbr
- ** @param whoami
- ** @param line
- **
- ** @return
- **/
 UNS8 getSDOlineOnUse (CO_Data* d, UNS8 CliServNbr, UNS8 whoami, UNS8 *line)
 {
 
@@ -554,16 +430,6 @@ UNS8 getSDOlineOnUse (CO_Data* d, UNS8 CliServNbr, UNS8 whoami, UNS8 *line)
 	return 0xFF;
 }
 
-/*!
- **
- **
- ** @param d
- ** @param CliServNbr
- ** @param whoami
- ** @param line
- **
- ** @return
- **/
 UNS8 getSDOlineToClose (CO_Data* d, UNS8 CliServNbr, UNS8 whoami, UNS8 *line)
 {
 
@@ -580,23 +446,13 @@ UNS8 getSDOlineToClose (CO_Data* d, UNS8 CliServNbr, UNS8 whoami, UNS8 *line)
 	return 0xFF;
 }
 
-
-/*!
- **
- **
- ** @param d
- ** @param CliServNbr
- ** @param whoami
- **
- ** @return
- **/
-UNS8 closeSDOtransfer (CO_Data* d, UNS8 nodeId, UNS8 whoami)
+UNS8 closeSDOtransfer (CO_Data* d, UNS8 CliServNbr, UNS8 whoami)
 {
 	UNS8 err;
 	UNS8 line;
     UNS8 CliNbr;
 	/* First let's find the corresponding SDO client in our OD  */
-	CliNbr = GetSDOClientFromNodeId(d, nodeId);
+	CliNbr = GetSDOClientFromNodeId(d, CliServNbr);
 	if(CliNbr >= 0xFE)
 		return SDO_ABORTED_INTERNAL;
     err = getSDOlineToClose(d, CliNbr, whoami, &line);
@@ -608,15 +464,6 @@ UNS8 closeSDOtransfer (CO_Data* d, UNS8 nodeId, UNS8 whoami)
 	return 0;
 }
 
-/*!
- **
- **
- ** @param d
- ** @param line
- ** @param nbBytes
- **
- ** @return
- **/
 UNS8 getSDOlineRestBytes (CO_Data* d, UNS8 line, UNS32 * nbBytes)
 {
 	/* SDO initiated with e=0 and s=0 have count set to null */
@@ -627,15 +474,6 @@ UNS8 getSDOlineRestBytes (CO_Data* d, UNS8 line, UNS32 * nbBytes)
 	return 0;
 }
 
-/*!
- **
- **
- ** @param d
- ** @param line
- ** @param nbBytes
- **
- ** @return
- **/
 UNS8 setSDOlineRestBytes (CO_Data* d, UNS8 line, UNS32 nbBytes)
 {
 #ifndef SDO_DYNAMIC_BUFFER_ALLOCATION
@@ -649,16 +487,6 @@ UNS8 setSDOlineRestBytes (CO_Data* d, UNS8 line, UNS32 nbBytes)
 	return 0;
 }
 
-/*!
- **
- **
- ** @param d
- ** @param whoami
- ** @param CliServNbr
- ** @param pData
- **
- ** @return
- **/
 UNS8 sendSDO (CO_Data* d, UNS8 whoami, UNS8 CliServNbr, UNS8 *pData)
 {
 	UNS16 offset;
@@ -701,17 +529,6 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, UNS8 CliServNbr, UNS8 *pData)
 	return canSend(d->canHandle,&m);
 }
 
-/*!
- **
- **
- ** @param d
- ** @param whoami
- ** @param index
- ** @param subIndex
- ** @param abortCode
- **
- ** @return
- **/
 UNS8 sendSDOabort (CO_Data* d, UNS8 whoami, UNS8 CliServNbr, UNS16 index, UNS8 subIndex, UNS32 abortCode)
 {
 	UNS8 data[8];
@@ -734,14 +551,6 @@ UNS8 sendSDOabort (CO_Data* d, UNS8 whoami, UNS8 CliServNbr, UNS16 index, UNS8 s
 	return ret;
 }
 
-/*!
- **
- **
- ** @param d
- ** @param m
- **
- ** @return
- **/
 UNS8 proceedSDO (CO_Data* d, Message *m)
 {
 	UNS8 err;
@@ -1796,18 +1605,6 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	return 0;
 }
 
-
-/*!
- **
- **
- ** @param d
- ** @param nodeId
- **
- ** @return
- ** 	0xFF : No SDO client available
- **     0xFE : Not found
- **     otherwise : SDO client number
- **/
 UNS8 GetSDOClientFromNodeId( CO_Data* d, UNS8 nodeId )
 {
 	UNS8 SDOfound = 0;
@@ -1862,6 +1659,7 @@ UNS8 GetSDOClientFromNodeId( CO_Data* d, UNS8 nodeId )
  ** @param data
  ** @param Callback
  ** @param endianize
+ ** @param useBlockMode
  **
  ** @return
  **/
@@ -2168,19 +1966,6 @@ UNS8 readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 
 	return _readNetworkDict (d, nodeId, index, subIndex, dataType, NULL, useBlockMode);
 }
 
-/*!
- **
- **
- ** @param d
- ** @param nodeId
- ** @param index
- ** @param subIndex
- ** @param dataType
- ** @param Callback
- ** @param useBlockMode
- **
- ** @return
- **/
 UNS8 readNetworkDictCallback (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback, UNS8 useBlockMode)
 {
 	return _readNetworkDict (d, nodeId, index, subIndex, dataType, Callback, useBlockMode);
@@ -2234,20 +2019,6 @@ UNS8 readNetworkDictCallbackAI (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIn
 	}
 }
 
-/*!
- **
- **
- ** @param d
- ** @param nodeId
- ** @param data
- ** @param size : *size MUST contain the size of *data buffer before calling
- **                     The function set it to the actual number of written bytes
- ** @param abortCode
- **
- ** @return
- **    SDO_PROVIDED_BUFFER_TOO_SMALL if *data is not big enough
- **    or any transmission status value.
- **/
 UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS32 *size,
 		UNS32 * abortCode)
 {
@@ -2329,16 +2100,6 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS32 *size,
     resetSDOline(d, line);
 	return SDO_FINISHED;
 }
-
-/*!
- **
- **
- ** @param d
- ** @param nodeId
- ** @param abortCode
- **
- ** @return
- **/
 UNS8 getWriteResultNetworkDict (CO_Data* d, UNS8 nodeId, UNS32 * abortCode)
 {
 	UNS8 line = 0;

@@ -44,16 +44,6 @@ UNS32 OnNumberOfErrorsUpdate(CO_Data* d, const indextable * unsused_indextable, 
 
 #define Data data  /* temporary fix */
 
-
-/*! This is called when Index 0x1003 is updated.
-**
-**
-** @param d
-** @param unsused_indextable
-** @param unsused_bSubindex
-**
-** @return
-**/
 UNS32 OnNumberOfErrorsUpdate(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
 {
 	UNS8 index;
@@ -67,11 +57,6 @@ UNS32 OnNumberOfErrorsUpdate(CO_Data* d, const indextable * unsused_indextable, 
   return 0;
 }
 
-/*! start the EMCY mangagement.
-**
-**
-** @param d
-**/
 void emergencyInit(CO_Data* d)
 {
   RegisterSetODentryCallBack(d, 0x1003, 0x00, &OnNumberOfErrorsUpdate);
@@ -79,24 +64,11 @@ void emergencyInit(CO_Data* d)
   *d->error_number = 0;
 }
 
-/*!
-**
-**
-** @param d
-**/
 void emergencyStop(CO_Data* d)
 {
   
 }
 
-
-/*!
- **
- ** @param d
- ** @param cob_id
- **
- ** @return
- **/
 UNS8 sendEMCY(CO_Data* d, UNS16 errCode, UNS8 errRegister, const void *Specific, UNS8 SpecificLength)
 {
 	Message m;
@@ -128,14 +100,6 @@ UNS8 sendEMCY(CO_Data* d, UNS16 errCode, UNS8 errRegister, const void *Specific,
 	return canSend(d->canHandle,&m);
 }
 
-/*! Sets a new error with code errCode. Also sets corresponding bits in Error register (1001h)
- **                                                                                                 
- **  
- ** @param d
- ** @param errCode Code of the error                                                                                        
- ** @param errRegister Bits of Error register (1001h) to be set.
- ** @return 1 if error, 0 if successful
- */
 UNS8 EMCY_setError(CO_Data* d, UNS16 errCode, UNS8 errRegMask, UNS16 addInfo)
 {
 	UNS8 index;
@@ -187,14 +151,6 @@ UNS8 EMCY_setError(CO_Data* d, UNS16 errCode, UNS8 errRegMask, UNS16 addInfo)
 	else return 1;
 }
 
-/*! Deletes error errCode. Also clears corresponding bits in Error register (1001h)
- **                                                                                                 
- **  
- ** @param d
- ** @param errCode Code of the error                                                                                        
- ** @param errRegister Bits of Error register (1001h) to be set.
- ** @return 1 if error, 0 if successful
- */
 void EMCY_errorRecovered(CO_Data* d, UNS16 errCode)
 {
 	UNS8 index;
@@ -229,13 +185,6 @@ void EMCY_errorRecovered(CO_Data* d, UNS16 errCode)
 		MSG_WAR(0x3054, "recovered error was not active", 0);
 }
 
-/*! This function is responsible to process an EMCY canopen-message.
- **
- **
- ** @param d
- ** @param m The CAN-message which has to be analysed.
- **
- **/
 void proceedEMCY(CO_Data* d, Message* m)
 {
 	UNS8 nodeID;

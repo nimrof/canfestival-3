@@ -62,12 +62,6 @@ inline void start_node(CO_Data* d, UNS8 nodeId){
     d->NMTable[nodeId] = Operational;
 }
 
-/**
-** @brief Function to be called from post_SlaveBootup
-**
-** @param d
-** @param nodeId
-*/
 UNS8 check_and_start_node(CO_Data* d, UNS8 nodeId)
 {   
     if(d->dcf_status != DCF_STATUS_INIT)
@@ -94,12 +88,6 @@ inline void start_and_seek_node(CO_Data* d, UNS8 nodeId){
    setState(d, Operational);
 }
 
-/**
-**
-**
-** @param d
-** @param nodeId
-*/
 static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
 {
     UNS32 abortCode = 0;
@@ -156,14 +144,6 @@ dcferror:
     d->NMTable[nodeId] = Unknown_state;
 }
 
-/**
-**
-**
-** @param d
-** @param nodeId
-**
-** @return
-*/
 UNS8 init_consise_dcf(CO_Data* d,UNS8 nodeId)
 {
     /* Fetch DCF OD entry */

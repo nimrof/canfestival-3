@@ -32,34 +32,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "data.h"
 #include "sysdep.h"
 
-/** Prototypes for internals functions */
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param newCommunicationState                                                                    
-**/     
-void switchCommunicationState(CO_Data* d, 
-	s_state_communication *newCommunicationState);
-	
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-**                                                                                                 
-** @return                                                                                         
-**/    
 e_nodeState getState(CO_Data* d)
 {
   return d->nodeState;
 }
 
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param m                                                                                        
-**/  
 void canDispatch(CO_Data* d, Message *m)
 {
 	UNS16 cob_id = UNS16_LE(m->cob_id);
@@ -129,12 +106,6 @@ void canDispatch(CO_Data* d, Message *m)
 	}
 #define None
 
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param newCommunicationState                                                                    
-**/  	
 void switchCommunicationState(CO_Data* d, s_state_communication *newCommunicationState)
 {
 #ifdef CO_ENABLE_LSS
@@ -148,14 +119,6 @@ void switchCommunicationState(CO_Data* d, s_state_communication *newCommunicatio
 	StartOrStop(csBoot_Up,	None,	slaveSendBootUp(d))
 }
 
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param newState                                                                                 
-**                                                                                                 
-** @return                                                                                         
-**/  
 UNS8 setState(CO_Data* d, e_nodeState newState)
 {
 	if(newState != d->nodeState){
@@ -217,24 +180,11 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
     return d->nodeState;  
 }
 
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-**                                                                                                 
-** @return                                                                                         
-**/ 
 UNS8 getNodeId(CO_Data* d)
 {
   return *d->bDeviceNodeId;
 }
 
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param nodeId                                                                                   
-**/   
 void setNodeId(CO_Data* d, UNS8 nodeId)
 {
   UNS16 offset = d->firstIndex->SDO_SVR;

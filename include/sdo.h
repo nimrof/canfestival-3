@@ -234,6 +234,7 @@ UNS8 getSDOlineToClose (CO_Data* d, UNS8 CliServNbr, UNS8 whoami, UNS8 *line);
  * @param *d Pointer on a CAN object data structure
  * @param CliServNbr Client or Server object involved
  * @param whoami Line opened as SDO_CLIENT or SDO_SERVER
+ * @return 0xFF if error.  Else, return 0
  */
 UNS8 closeSDOtransfer (CO_Data* d, UNS8 CliServNbr, UNS8 whoami);
 
@@ -260,7 +261,7 @@ UNS8 setSDOlineRestBytes (CO_Data* d, UNS8 line, UNS32 nbBytes);
  * @param *d Pointer on a CAN object data structure
  * @param whoami Takes 2 values : SDO_CLIENT or SDO_SERVER
  * @param CliServNbr Client or Server object involved
- * @param data Array of the 8 bytes to transmit
+ * @param pData Array of the 8 bytes to transmit
  * @return canSend(bus_id,&m) or 0xFF if error.
  */
 UNS8 sendSDO (CO_Data* d, UNS8 whoami, UNS8 CliServNbr, UNS8 *pData);
@@ -349,6 +350,7 @@ UNS8 writeNetworkDictCallBack (CO_Data* d, UNS8 nodeId, UNS16 index,
  * @param endianize When not 0, data is endianized into network byte order
  *                  when 0, data is not endianized and copied in machine native
  *                  endianness
+ * @param useBlockMode
  * @return 
  * - 0 is returned upon success.
  * - 0xFF is returned when error occurs.
@@ -382,6 +384,7 @@ UNS8 readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 
  * @param subIndex At subIndex indicated
  * @param dataType (defined in objdictdef.h) : put "visible_string" for strings, 0 for integers or reals or other value.
  * @param Callback Callback function
+ * @param useBlockMode
  * @return 
  * - 0 is returned upon success.
  * - 0xFE is returned when no sdo client to communicate with node.
@@ -401,6 +404,7 @@ UNS8 readNetworkDictCallback (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
  * @param subIndex At subIndex indicated
  * @param dataType (defined in objdictdef.h) : put "visible_string" for strings, 0 for integers or reals or other value.
  * @param Callback Callback function
+ * @param useBlockMode
  * @return 
  * - 0 is returned upon success.
  * - 0xFF is returned when error occurs.

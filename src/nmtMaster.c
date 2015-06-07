@@ -34,15 +34,6 @@
 #include "canfestival.h"
 #include "sysdep.h"
 
-/*!
-**
-**
-** @param d
-** @param Node_ID
-** @param cs
-**
-** @return
-**/
 UNS8 masterSendNMTstateChange(CO_Data* d, UNS8 Node_ID, UNS8 cs)
 {
   Message m;
@@ -59,15 +50,6 @@ UNS8 masterSendNMTstateChange(CO_Data* d, UNS8 Node_ID, UNS8 cs)
   return canSend(d->canHandle,&m);
 }
 
-
-/*!
-**
-**
-** @param d
-** @param nodeId
-**
-** @return
-**/
 UNS8 masterSendNMTnodeguard(CO_Data* d, UNS8 nodeId)
 {
   Message m;
@@ -83,14 +65,6 @@ UNS8 masterSendNMTnodeguard(CO_Data* d, UNS8 nodeId)
   return canSend(d->canHandle,&m);
 }
 
-/*!
-**
-**
-** @param d
-** @param nodeId
-**
-** @return
-**/
 UNS8 masterRequestNodeState(CO_Data* d, UNS8 nodeId)
 {
   /* FIXME: should warn for bad toggle bit. */

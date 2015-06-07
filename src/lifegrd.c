@@ -163,13 +163,6 @@ void proceedNODE_GUARD(CO_Data* d, Message* m )
     }
 }
 
-/*! The Producer Timer Callback
-**
-**
-** @param d
-** @param id
- * @ingroup heartbeato
-**/
 void ProducerHeartbeatAlarm(CO_Data* d, UNS32 id)
 {
   if(*d->ProducerHeartBeatTime)
@@ -251,15 +244,6 @@ void GuardTimeAlarm(CO_Data* d, UNS32 id)
 
 }
 
-/**
- * This function is called, if index 0x100C or 0x100D is updated to
- * restart the node-guarding service with the new parameters
- *
- * @param d 	Pointer on a CAN object data structure 
- * @param unused_indextable
- * @param unused_bSubindex
- * @ingroup nodeguardo
- */
 UNS32 OnNodeGuardUpdate(CO_Data* d, const indextable * unused_indextable, UNS8 unused_bSubindex)
 {
   nodeguardStop(d);
@@ -267,17 +251,6 @@ UNS32 OnNodeGuardUpdate(CO_Data* d, const indextable * unused_indextable, UNS8 u
   return 0;
 }
 
-
-/*! This is called when Index 0x1017 is updated.
-**
-**
-** @param d
-** @param unused_indextable
-** @param unused_bSubindex
-**
-** @return
- * @ingroup heartbeato
-**/
 UNS32 OnHeartbeatProducerUpdate(CO_Data* d, const indextable * unused_indextable, UNS8 unused_bSubindex)
 {
   heartbeatStop(d);

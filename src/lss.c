@@ -156,14 +156,7 @@ void LssAlarmMSG(CO_Data* d, UNS32 id)
     	(*d->lss_transfer.Callback)(d,d->lss_transfer.command);
     }
 }
-    
-    
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param id                                                                                       
-**/   
+
 void LssAlarmSDELAY(CO_Data* d, UNS32 id)
 {	
 	
@@ -194,12 +187,6 @@ void LssAlarmSDELAY(CO_Data* d, UNS32 id)
 } 
 
 #ifdef CO_ENABLE_LSS_FS
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param id                                                                                       
-**/   
 void LssAlarmFS(CO_Data* d, UNS32 id)
 {	
 	StopLSS_FS_TIMER();
@@ -287,35 +274,16 @@ void LssAlarmFS(CO_Data* d, UNS32 id)
 }
 #endif
 
-	
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-**/ 
 void startLSS(CO_Data* d)
 {
 	/*MSG_WAR(0x3D09, "LSS services started",0);*/
 }
 
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-**/   
 void stopLSS(CO_Data* d)
 {
 	/*MSG_WAR(0x3D09, "LSS services stopped",0);*/
 }
 
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param cob_id                                                                                   
-**                                                                                                 
-** @return                                                                                         
-**/  
 UNS8 sendSlaveLSSMessage(CO_Data* d, UNS8 command,void *dat1,void *dat2)
 {
   Message m;
@@ -378,14 +346,6 @@ static UNS8 CO_TranslateBaudRate(char* optarg){
 	return 0xFF;
 }
 
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param cob_id                                                                                   
-**                                                                                                 
-** @return                                                                                         
-**/  
 UNS8 sendMasterLSSMessage(CO_Data* d, UNS8 command,void *dat1,void *dat2)
 {
   Message m;
@@ -523,14 +483,6 @@ UNS8 sendMasterLSSMessage(CO_Data* d, UNS8 command,void *dat1,void *dat2)
   return res;
 }
 
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param cob_id                                                                                   
-**                                                                                                 
-** @return                                                                                         
-**/  
 UNS8 sendLSS(CO_Data* d, UNS8 command,void *dat1,void *dat2)
 {
   UNS8 res=1;
@@ -545,15 +497,6 @@ UNS8 sendLSS(CO_Data* d, UNS8 command,void *dat1,void *dat2)
   return res ;
 }
 
-
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param m                                                                                        
-**                                                                                                 
-** @return                                                                                         
-**/ 
 UNS8 proceedLSS_Master(CO_Data* d, Message* m )
 { 
 	UNS8 msg_cs;
@@ -637,14 +580,6 @@ ErrorProcessMaster:
 		
 }
 
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param m                                                                                        
-**                                                                                                 
-** @return                                                                                         
-**/ 
 UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
 {  
 	UNS8 msg_cs;

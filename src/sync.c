@@ -43,47 +43,21 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* Prototypes for internals functions */
 
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param id                                                                                       
-**/  
 void SyncAlarm(CO_Data* d, UNS32 id);
 UNS32 OnCOB_ID_SyncUpdate(CO_Data* d, const indextable * unsused_indextable, 
 	UNS8 unsused_bSubindex);
 
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param id                                                                                       
-**/   
 void SyncAlarm(CO_Data* d, UNS32 id)
 {
 	sendSYNC(d) ;
 }
 
-/*!                                                                                                
-** This is called when Index 0x1005 is updated.                                                                                                
-**                                                                                                 
-** @param d                                                                                        
-** @param unsused_indextable                                                                       
-** @param unsused_bSubindex                                                                        
-**                                                                                                 
-** @return                                                                                         
-**/  
 UNS32 OnCOB_ID_SyncUpdate(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
 {
 	startSYNC(d);
 	return 0;
 }
 
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-**/ 
 void startSYNC(CO_Data* d)
 {
 	if(d->syncTimer != TIMER_NONE){
@@ -104,11 +78,6 @@ void startSYNC(CO_Data* d)
 	}
 }
 
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-**/   
 void stopSYNC(CO_Data* d)
 {
     RegisterSetODentryCallBack(d, 0x1005, 0, NULL);
@@ -116,15 +85,6 @@ void stopSYNC(CO_Data* d)
 	d->syncTimer = DelAlarm(d->syncTimer);
 }
 
-
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param cob_id                                                                                   
-**                                                                                                 
-** @return                                                                                         
-**/  
 UNS8 sendSYNCMessage(CO_Data* d)
 {
   Message m;
@@ -138,15 +98,6 @@ UNS8 sendSYNCMessage(CO_Data* d)
   return canSend(d->canHandle,&m);
 }
 
-
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param cob_id                                                                                   
-**                                                                                                 
-** @return                                                                                         
-**/  
 UNS8 sendSYNC(CO_Data* d)
 {
   UNS8 res;
@@ -155,14 +106,6 @@ UNS8 sendSYNC(CO_Data* d)
   return res ;
 }
 
-/*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param m                                                                                        
-**                                                                                                 
-** @return                                                                                         
-**/ 
 UNS8 proceedSYNC(CO_Data* d)
 {
 
