@@ -135,6 +135,7 @@ install: libcanfestival.a
 	mkdir -p $(DESTDIR)$(PREFIX)/lib/
 	mkdir -p $(DESTDIR)$(PREFIX)/include/canfestival
 	cp libcanfestival.a $(DESTDIR)$(PREFIX)/lib/
+	cp canfestival.pc $(PREFIX)/lib/pkgconfig
 	cp ../include/*.h $(DESTDIR)$(PREFIX)/include/canfestival
 
 uninstall:
@@ -148,3 +149,4 @@ endif
 mrproper: clean
 
 endif
+
