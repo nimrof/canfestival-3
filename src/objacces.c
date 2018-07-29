@@ -89,6 +89,7 @@ UNS32 _getODentry( CO_Data* d,
                    UNS8 endianize)
 { /* DO NOT USE MSG_ERR because the macro may send a PDO -> infinite
     loop if it fails. */
+  (void)endianize;
   UNS32 errorCode;
   UNS32 szData;
   const indextable *ptrTable;
@@ -177,6 +178,7 @@ UNS32 _setODentry( CO_Data* d,
                    UNS8 checkAccess,
                    UNS8 endianize)
 {
+  (void)endianize;
   UNS32 szData;
   UNS8 dataType;
   UNS32 errorCode;
@@ -279,4 +281,9 @@ const indextable *odentry;
   return errorCode;
 }
 
-void _storeODSubIndex (CO_Data* d, UNS16 wIndex, UNS8 bSubindex){}
+void _storeODSubIndex(CO_Data* d, UNS16 wIndex, UNS8 bSubindex)
+{
+	(void)d;
+	(void)wIndex;
+	(void)bSubindex;
+}

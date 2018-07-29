@@ -102,6 +102,7 @@ void LssAlarmFS(CO_Data* d, UNS32 id);
 
 void LssAlarmMSG(CO_Data* d, UNS32 id)
 {	
+	(void)id;
  	StopLSS_MSG_TIMER();
 #ifdef CO_ENABLE_LSS_FS
 	if(d->lss_transfer.command==LSS_IDENT_FASTSCAN){
@@ -159,7 +160,7 @@ void LssAlarmMSG(CO_Data* d, UNS32 id)
 
 void LssAlarmSDELAY(CO_Data* d, UNS32 id)
 {	
-	
+	(void)id;
 	/* The first switch_delay period expired. Store the node state, change it 
  	 * so no CAN messages will be sent or received, call the ChangeBaudRate function*/
    	if(d->lss_transfer.switchDelayState==SDELAY_FIRST){
@@ -276,11 +277,13 @@ void LssAlarmFS(CO_Data* d, UNS32 id)
 
 void startLSS(CO_Data* d)
 {
+	(void)d;
 	/*MSG_WAR(0x3D09, "LSS services started",0);*/
 }
 
 void stopLSS(CO_Data* d)
 {
+	(void)d;
 	/*MSG_WAR(0x3D09, "LSS services stopped",0);*/
 }
 
@@ -942,6 +945,7 @@ UNS8 configNetworkNode (CO_Data* d, UNS8 command, void *dat1, void* dat2, LSSCal
 
 UNS8 getConfigResultNetworkNode (CO_Data* d, UNS8 command, UNS32* dat1, UNS8* dat2)
 { 
+  (void)command;
   *dat1=d->lss_transfer.dat1;
   *dat2=d->lss_transfer.dat2;
   return d->lss_transfer.state;

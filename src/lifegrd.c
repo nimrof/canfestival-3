@@ -165,6 +165,7 @@ void proceedNODE_GUARD(CO_Data* d, Message* m )
 
 void ProducerHeartbeatAlarm(CO_Data* d, UNS32 id)
 {
+  (void)id;
   if(*d->ProducerHeartBeatTime)
     {
       Message msg;
@@ -202,6 +203,7 @@ void ProducerHeartbeatAlarm(CO_Data* d, UNS32 id)
  */
 void GuardTimeAlarm(CO_Data* d, UNS32 id)
 {
+  (void)id;
   if (*d->GuardTime) {
     UNS8 i;
 
@@ -246,6 +248,8 @@ void GuardTimeAlarm(CO_Data* d, UNS32 id)
 
 UNS32 OnNodeGuardUpdate(CO_Data* d, const indextable * unused_indextable, UNS8 unused_bSubindex)
 {
+  (void)unused_indextable;
+  (void)unused_bSubindex;
   nodeguardStop(d);
   nodeguardInit(d);
   return 0;
@@ -253,6 +257,8 @@ UNS32 OnNodeGuardUpdate(CO_Data* d, const indextable * unused_indextable, UNS8 u
 
 UNS32 OnHeartbeatProducerUpdate(CO_Data* d, const indextable * unused_indextable, UNS8 unused_bSubindex)
 {
+  (void)unused_indextable;
+  (void)unused_bSubindex;
   heartbeatStop(d);
   heartbeatInit(d);
   return 0;
@@ -339,8 +345,27 @@ void lifeGuardStop(CO_Data* d)
 }
 
 
-void _heartbeatError(CO_Data* d, UNS8 heartbeatID){}
-void _post_SlaveBootup(CO_Data* d, UNS8 SlaveID){}
-void _post_SlaveStateChange(CO_Data* d, UNS8 nodeId, e_nodeState newNodeState){}
-void _nodeguardError(CO_Data* d, UNS8 id){}
+void _heartbeatError(CO_Data* d, UNS8 heartbeatID)
+{
+	(void)d;
+	(void)heartbeatID;
+}
 
+void _post_SlaveBootup(CO_Data* d, UNS8 SlaveID)
+{
+	(void)d;
+	(void)SlaveID;
+}
+
+void _post_SlaveStateChange(CO_Data* d, UNS8 nodeId, e_nodeState newNodeState)
+{
+	(void)d;
+	(void)nodeId;
+	(void)newNodeState;
+}
+
+void _nodeguardError(CO_Data* d, UNS8 id)
+{
+	(void)d;
+	(void)id;
+}

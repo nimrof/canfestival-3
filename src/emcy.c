@@ -46,6 +46,8 @@ UNS32 OnNumberOfErrorsUpdate(CO_Data* d, const indextable * unsused_indextable, 
 
 UNS32 OnNumberOfErrorsUpdate(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
 {
+	(void)unsused_indextable;
+	(void)unsused_bSubindex;
 	UNS8 index;
   // if 0, reset Pre-defined Error Field
   // else, don't change and give an abort message (eeror code: 0609 0030h)
@@ -68,7 +70,7 @@ void emergencyInit(CO_Data* d)
 
 void emergencyStop(CO_Data* d)
 {
-  
+  (void)d;
 }
 
 UNS8 sendEMCY(CO_Data* d, UNS16 errCode, UNS8 errRegister, const void *Specific, UNS8 SpecificLength)
@@ -211,4 +213,10 @@ void proceedEMCY(CO_Data* d, Message* m)
 	(*d->post_emcy)(d, nodeID, errCode, errReg);
 }
 
-void _post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg){}
+void _post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg)
+{
+	(void)d;
+	(void)nodeID;
+	(void)errCode;
+	(void)errReg;
+}

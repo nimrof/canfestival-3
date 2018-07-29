@@ -566,6 +566,8 @@ PDOInhibitTimerAlarm (CO_Data * d, UNS32 pdoNum)
 void
 _RxPDO_EventTimers_Handler(CO_Data *d, UNS32 pdoNum)
 {
+	(void)d;
+	(void)pdoNum;
 }
 
 /*!
