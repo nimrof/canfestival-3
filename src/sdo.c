@@ -332,8 +332,9 @@ UNS8 failedSDO (CO_Data* d, UNS8 CliServNbr, UNS8 whoami, UNS16 index,
 	UNS8 err;
 	UNS8 line;
 	err = getSDOlineOnUse( d, CliServNbr, whoami, &line );
-	if (!err) /* If a line on use have been found.*/
+	if (!err) { /* If a line on use have been found.*/
 		MSG_WAR(0x3A20, "FailedSDO : line found : ", line);
+	}
 	if ((! err) && (whoami == SDO_SERVER)) {
 		resetSDOline( d, line );
 		MSG_WAR(0x3A21, "FailedSDO : line released : ", line);
@@ -1147,8 +1148,9 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					resetSDOline( d, line );
 					MSG_WAR(0x3AA8, "SD0. Received SDO abort. Line released. Code : ", abortCode);
 				}
-				else
+				else {
 					MSG_WAR(0x3AA9, "SD0. Received SDO abort. No line found. Code : ", abortCode);
+				}
 				/* Tips : The end user has no way to know that the server node has received an abort SDO. */
 				/* Its is ok, I think.*/
 			}
@@ -1161,8 +1163,9 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					MSG_WAR(0x3AB0, "SD0. Received SDO abort. Line state ABORTED. Code : ", abortCode);
 					if(d->transfers[line].Callback) (*d->transfers[line].Callback)(d,nodeId);
 				}
-				else
+				else {
 					MSG_WAR(0x3AB1, "SD0. Received SDO abort. No line found. Code : ", abortCode);
+				}
 			}
 			break;
 		case 5: /* Command specifier for data transmission - the client or server is the data producer */
@@ -1266,8 +1269,9 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					        return 0xFF;
                         }
            			}
-                    else
+                    else {
 					    MSG_WAR(0x3AA2, "Received SDO block START upload defined at index 0x1200 + ", CliServNbr);
+                    }
                     d->transfers[line].lastblockoffset = (UNS8) d->transfers[line].offset;
                     for(SeqNo = 1 ; SeqNo <= d->transfers[line].blksize ; SeqNo++) {
                         d->transfers[line].seqno = SeqNo;
@@ -1694,8 +1698,9 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 		MSG_ERR(0x1AC5, "SDO error : No line free, too many SDO in progress. Aborted for node : ", nodeId);
 		return (0xFF);
 	}
-	else
+	else {
 		MSG_WAR(0x3AE1, "Transmission on line : ", line);
+	}
     if(useBlockMode) {
 	    initSDOline(d, line, CliNbr, index, subIndex, SDO_BLOCK_DOWNLOAD_IN_PROGRESS);
 	    d->transfers[line].objsize = count;
@@ -1912,8 +1917,9 @@ INLINE UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
 		MSG_ERR(0x1AD9, "SDO error : No line free, too many SDO in progress. Aborted for node : ", nodeId);
 		return (0xFF);
 	}
-	else
+	else {
 		MSG_WAR(0x3AE0, "Transmission on line : ", line);
+	}
 
     if(useBlockMode) {
 	    initSDOline(d, line, CliNbr, index, subIndex, SDO_BLOCK_UPLOAD_IN_PROGRESS);
