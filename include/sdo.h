@@ -325,6 +325,7 @@ UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
  * @param dataType (defined in objdictdef.h) : put "visible_string" for strings, 0 for integers or reals or other value.
  * @param *data Pointer to data
  * @param Callback Callback function
+ * @param useBlockMode use block mode transfer
  * @return 
  * - 0 is returned upon success.
  * - 0xFE is returned when no sdo client to communicate with node.
