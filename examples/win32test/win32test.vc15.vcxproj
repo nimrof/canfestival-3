@@ -99,6 +99,9 @@
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <PreBuildEvent>
+      <Command> c:\python27\python.exe "$(SolutionDir)objdictgen\objdictgen.py" win32test.od "win32test.c"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.c" />
