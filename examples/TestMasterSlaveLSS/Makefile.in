@@ -35,16 +35,17 @@ PREFIX = SUB_PREFIX
 TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
-TESTMASTERSLAVELSS = "TestMasterSlaveLSS"
+TARGET_DIR=../../bin/
+TESTMASTERSLAVE = $(TARGET_DIR)TestMasterSlaveLSS
 
 INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
 
 MASTER_OBJS = TestSlaveA.o TestSlaveB.o TestMaster.o TestMasterSlaveLSS.o SlaveA.o SlaveB.o Master.o
 
-OBJS = $(MASTER_OBJS) ../../src/libcanfestival.a ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a
+OBJS = $(MASTER_OBJS) $(TARGET_DIR)libcanfestival.a ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a
 
 ifeq ($(TARGET),win32)
-	TESTMASTERSLAVELSS = "TestMasterSlaveLSS.exe"
+	TESTMASTERSLAVELSS = $(TARGET_DIR)TestMasterSlaveLSS.exe
 endif
 
 ifeq ($(TIMERS_DRIVER),timers_win32)

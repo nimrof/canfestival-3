@@ -35,13 +35,14 @@ PREFIX = SUB_PREFIX
 TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
-CANOPENSHELL = CANOpenShell
+TARGET_DIR=../../bin/
+CANOPENSHELL = $(TARGET_DIR)CANOpenShell
 
 INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
 
 MASTER_OBJS = CANOpenShellMasterOD.o CANOpenShellSlaveOD.o CANOpenShell.o
 
-OBJS = $(MASTER_OBJS) ../../src/libcanfestival.a ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a
+OBJS = $(MASTER_OBJS) $(TARGET_DIR)libcanfestival.a ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a
 
 ifeq ($(TARGET),win32)
 	CANOPENSHELL = CANOpenShell.exe
