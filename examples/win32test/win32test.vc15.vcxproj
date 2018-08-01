@@ -128,6 +128,9 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
     </Link>
+    <PreBuildEvent>
+      <Command> c:\python27\python.exe "$(SolutionDir)objdictgen\objdictgen.py" win32test.od "win32test.c"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -176,6 +179,9 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
     </Link>
+    <PreBuildEvent>
+      <Command> c:\python27\python.exe "$(SolutionDir)objdictgen\objdictgen.py" win32test.od "win32test.c"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.c" />
