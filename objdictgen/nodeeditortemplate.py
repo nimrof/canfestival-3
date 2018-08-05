@@ -6,17 +6,17 @@ from node import OD_Subindex, OD_MultipleSubindexes, OD_IdenticalSubindexes, OD_
 from commondialogs import *
 
 class NodeEditorTemplate:
-    
+
     EDITMENU_ID = None
-    
+
     def __init__(self, manager, frame, mode_solo):
         self.Manager = manager
         self.Frame = frame
         self.ModeSolo = mode_solo
-        
+
         self.BusId = None
         self.Closing = False
-    
+
     def SetBusId(self, bus_id):
         self.BusId = bus_id
 
@@ -25,42 +25,42 @@ class NodeEditorTemplate:
 
     def IsClosing(self):
         return self.Closing
-    
+
     def OnAddSDOServerMenu(self, event):
         self.Manager.AddSDOServerToCurrent()
         self.RefreshBufferState()
         self.RefreshCurrentIndexList()
-        
+
     def OnAddSDOClientMenu(self, event):
         self.Manager.AddSDOClientToCurrent()
         self.RefreshBufferState()
         self.RefreshCurrentIndexList()
-        
+
     def OnAddPDOTransmitMenu(self, event):
         self.Manager.AddPDOTransmitToCurrent()
         self.RefreshBufferState()
         self.RefreshCurrentIndexList()
-        
+
     def OnAddPDOReceiveMenu(self, event):
         self.Manager.AddPDOReceiveToCurrent()
         self.RefreshBufferState()
         self.RefreshCurrentIndexList()
-        
+
     def OnAddMapVariableMenu(self, event):
         self.AddMapVariable()
-        
+
     def OnAddUserTypeMenu(self, event):
         self.AddUserType()
-    
+
     def OnRefreshMenu(self, event):
         self.RefreshCurrentIndexList()
-        
+
     def RefreshCurrentIndexList(self):
         pass
-    
+
     def RefreshStatusBar(self):
         pass
-    
+
     def SetStatusBarText(self, selection, manager):
         if selection:
             index, subIndex = selection
@@ -88,7 +88,7 @@ class NodeEditorTemplate:
         else:
             for i in xrange(3):
                 self.Frame.HelpBar.SetStatusText("", i)
-    
+
     def RefreshProfileMenu(self):
         if self.EDITMENU_ID is not None:
             profile = self.Manager.GetCurrentProfileName()
@@ -109,7 +109,7 @@ class NodeEditorTemplate:
                 else:
                     edititem.SetText(_("Other Profile"))
                     edititem.Enable(False)
-        
+
 #-------------------------------------------------------------------------------
 #                            Buffer Functions
 #-------------------------------------------------------------------------------
@@ -121,7 +121,7 @@ class NodeEditorTemplate:
         self.Manager.LoadCurrentPrevious()
         self.RefreshCurrentIndexList()
         self.RefreshBufferState()
-        
+
     def OnRedoMenu(self, event):
         self.Manager.LoadCurrentNext()
         self.RefreshCurrentIndexList()
@@ -134,16 +134,16 @@ class NodeEditorTemplate:
     def OnCommunicationMenu(self, event):
         dictionary,current = self.Manager.GetCurrentCommunicationLists()
         self.EditProfile(_("Edit DS-301 Profile"), dictionary, current)
-    
+
     def OnOtherCommunicationMenu(self, event):
         dictionary,current = self.Manager.GetCurrentDS302Lists()
         self.EditProfile(_("Edit DS-302 Profile"), dictionary, current)
-    
+
     def OnEditProfileMenu(self, event):
         title = _("Edit %s Profile") % self.Manager.GetCurrentProfileName()
         dictionary,current = self.Manager.GetCurrentProfileLists()
         self.EditProfile(title, dictionary, current)
-    
+
     def EditProfile(self, title, dictionary, current):
         dialog = CommunicationDialog(self.Frame)
         dialog.SetTitle(title)
@@ -163,7 +163,7 @@ class NodeEditorTemplate:
             self.Manager.ManageEntriesOfCurrent(addinglist, removinglist)
             self.Manager.BufferCurrentNode()
             self.RefreshBufferState()
-            
+
         dialog.Destroy()
 
     def GetProfileCallBack(self, text):
@@ -193,7 +193,7 @@ class NodeEditorTemplate:
 #-------------------------------------------------------------------------------
 #                           Add User Types and Variables
 #-------------------------------------------------------------------------------
-        
+
     def AddMapVariable(self):
         index = self.Manager.GetCurrentNextMapIndex()
         if index:
@@ -209,7 +209,7 @@ class NodeEditorTemplate:
             dialog.Destroy()
         else:
             self.ShowErrorMessage(_("No map variable index left!"))
-        
+
     def AddUserType(self):
         dialog = UserTypeDialog(self)
         dialog.SetTypeList(self.Manager.GetCustomisableTypes())

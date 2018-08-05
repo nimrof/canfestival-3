@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#This file is part of CanFestival, a library implementing CanOpen Stack. 
+#This file is part of CanFestival, a library implementing CanOpen Stack.
 #
 #Copyright (C): Edouard TISSERANT, Francis DUPIN and Laurent BESSARD
 #
@@ -30,7 +30,7 @@ Dictionary of translation between access symbol and their signification
 """
 AccessType = {"ro" : "Read Only", "wo" : "Write Only", "rw" : "Read/Write"}
 
-BoolType = {True : "True", False : "False"} 
+BoolType = {True : "True", False : "False"}
 OptionType = {True : "Yes", False : "No"}
 
 CustomisableTypes = [(0x02, 0), (0x03, 0), (0x04, 0), (0x05, 0), (0x06, 0), (0x07, 0),
@@ -98,9 +98,9 @@ MappingDictionary = {
     0x0019 : {"name" : "UNSIGNED48", "struct" : nosub, "size" : 48, "default" : 0, "values" : []},
     0x001A : {"name" : "UNSIGNED56", "struct" : nosub, "size" : 56, "default" : 0, "values" : []},
     0x001B : {"name" : "UNSIGNED64", "struct" : nosub, "size" : 64, "default" : 0, "values" : []},
-    0x1000 : {"name" : "Device Type", "struct" : var, "need" : True, "values" : 
+    0x1000 : {"name" : "Device Type", "struct" : var, "need" : True, "values" :
                 [{"name" : "Device Type", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
-    0x1001 : {"name" : "Error Register", "struct" : var,  "need" : True, "values" : 
+    0x1001 : {"name" : "Error Register", "struct" : var,  "need" : True, "values" :
                 [{"name" : "Error Register", "type" : 0x05, "access": 'ro', "pdo" : True}]},
     0x1002 : {"name" : "Manufacturer Status Register", "struct" : var, "need" : False,  "values" :
                 [{"name" : "Manufacturer Status Register", "type" : 0x07, "access" : 'ro', "pdo" : True}]},
@@ -234,7 +234,7 @@ MappingDictionary = {
 #-------------------------------------------------------------------------------
 
 """
-Return the index of the typename given by searching in mappingdictionary 
+Return the index of the typename given by searching in mappingdictionary
 """
 def FindTypeIndex(typename, mappingdictionary):
     testdic = {}
@@ -246,7 +246,7 @@ def FindTypeIndex(typename, mappingdictionary):
     return None
 
 """
-Return the name of the type by searching in mappingdictionary 
+Return the name of the type by searching in mappingdictionary
 """
 def FindTypeName(typeindex, mappingdictionary):
     if typeindex < 0x1000 and typeindex in mappingdictionary:
@@ -254,7 +254,7 @@ def FindTypeName(typeindex, mappingdictionary):
     return None
 
 """
-Return the default value of the type by searching in mappingdictionary 
+Return the default value of the type by searching in mappingdictionary
 """
 def FindTypeDefaultValue(typeindex, mappingdictionary):
     if typeindex < 0x1000 and typeindex in mappingdictionary:
@@ -262,7 +262,7 @@ def FindTypeDefaultValue(typeindex, mappingdictionary):
     return None
 
 """
-Return the list of types defined in mappingdictionary 
+Return the list of types defined in mappingdictionary
 """
 def FindTypeList(mappingdictionary):
     list = []
@@ -272,7 +272,7 @@ def FindTypeList(mappingdictionary):
     return list
 
 """
-Return the name of an entry by searching in mappingdictionary 
+Return the name of an entry by searching in mappingdictionary
 """
 def FindEntryName(index, mappingdictionary, compute=True):
     base_index = FindIndex(index, mappingdictionary)
@@ -285,7 +285,7 @@ def FindEntryName(index, mappingdictionary, compute=True):
     return None
 
 """
-Return the informations of one entry by searching in mappingdictionary 
+Return the informations of one entry by searching in mappingdictionary
 """
 def FindEntryInfos(index, mappingdictionary, compute=True):
     base_index = FindIndex(index, mappingdictionary)
@@ -298,7 +298,7 @@ def FindEntryInfos(index, mappingdictionary, compute=True):
     return None
 
 """
-Return the informations of one subentry of an entry by searching in mappingdictionary 
+Return the informations of one subentry of an entry by searching in mappingdictionary
 """
 def FindSubentryInfos(index, subIndex, mappingdictionary, compute=True):
     base_index = FindIndex(index, mappingdictionary)
@@ -336,7 +336,7 @@ def FindSubentryInfos(index, subIndex, mappingdictionary, compute=True):
     return None
 
 """
-Return the list of variables that can be mapped defined in mappingdictionary 
+Return the list of variables that can be mapped defined in mappingdictionary
 """
 def FindMapVariableList(mappingdictionary, Node, compute=True):
     list = []
@@ -361,7 +361,7 @@ def FindMapVariableList(mappingdictionary, Node, compute=True):
     return list
 
 """
-Return the list of mandatory indexes defined in mappingdictionary 
+Return the list of mandatory indexes defined in mappingdictionary
 """
 def FindMandatoryIndexes(mappingdictionary):
     list = []
@@ -414,9 +414,9 @@ that the structure of the Object Dictionary stay coherent
 """
 
 class Node:
-    
+
     DefaultStringSize = 10
-    
+
     def __init__(self, name = "", type = "slave", id = 0, description = "", profilename = "DS-301", profile = {}, specificmenu = []):
         self.Name = name
         self.Type = type
@@ -429,13 +429,13 @@ class Node:
         self.ParamsDictionary = {}
         self.DS302 = {}
         self.UserMapping = {}
-    
+
     """
     Return the node name
     """
     def GetNodeName(self):
         return self.Name
-    
+
     """
     Define the node name
     """
@@ -447,7 +447,7 @@ class Node:
     """
     def GetNodeType(self):
         return self.Type
-    
+
     """
     Define the node type ("master" or "slave")
     """
@@ -459,7 +459,7 @@ class Node:
     """
     def GetNodeID(self):
         return self.ID
-    
+
     """
     Define the node ID
     """
@@ -474,7 +474,7 @@ class Node:
             return self.Description
         else:
             return ""
-    
+
     """
     Define the node description
     """
@@ -486,7 +486,7 @@ class Node:
     """
     def GetProfileName(self):
         return self.ProfileName
-    
+
     """
     Define the Specific Profile Name
     """
@@ -498,56 +498,56 @@ class Node:
     """
     def GetProfile(self):
         return self.Profile
-    
+
     """
     Define the Specific Profile
     """
     def SetProfile(self, profile):
         self.Profile = profile
-    
+
     """
     Return the default string size
     """
     def GetDefaultStringSize(self):
         return self.DefaultStringSize
-    
+
     """
     Define the default string size
     """
     def SetDefaultStringSize(self, size):
         self.DefaultStringSize = size
-    
+
     """
     Define the DS-302 Profile
     """
     def SetDS302Profile(self, profile):
         self.DS302 = profile
-    
+
     """
     Define the DS-302 Profile
     """
     def GetDS302Profile(self):
         return self.DS302
-    
+
     """
     Return the Specific Menu Entries
     """
     def GetSpecificMenu(self):
         return self.SpecificMenu
-    
+
     """
     Define the Specific Menu Entries
     """
     def SetSpecificMenu(self, specificmenu):
         self.SpecificMenu = specificmenu
-    
+
     """
     Extend the Specific Menu Entries
     """
-    
+
     def ExtendSpecificMenu(self, specificmenu):
         self.SpecificMenu.extend(specificmenu)
-    
+
     """
     Function which return the different Mappings available for this node
     """
@@ -556,7 +556,7 @@ class Node:
             return [self.Profile, self.DS302, self.UserMapping]
         else:
             return [self.Profile, self.DS302]
-    
+
     """
     Add a new entry in the Object Dictionary
     """
@@ -587,7 +587,7 @@ class Node:
                     self.Dictionary[index][subIndex - 1] = value
                 return True
         return False
-    
+
     def SetParamsEntry(self, index, subIndex = None, comment = None, save = None, callback = None):
         if not getattr(self, "ParamsDictionary", False):
             self.ParamsDictionary = {}
@@ -611,7 +611,7 @@ class Node:
                     self.ParamsDictionary[index][subIndex]["save"] = save
                 return True
         return False
-    
+
     """
     Removes an existing entry in the Object Dictionary. If a subIndex is specified
     it will remove this subIndex only if it's the last of the index. If no subIndex
@@ -639,7 +639,7 @@ class Node:
                         self.ParamsDictionary.pop(index)
                 return True
         return False
-    
+
     """
     Check if an entry exists in the Object Dictionary and returns the answer.
     """
@@ -649,7 +649,7 @@ class Node:
                 return True
             return subIndex <= len(self.Dictionary[index])
         return False
-    
+
     """
     Returns the value of the entry asked. If the entry has the value "count", it
     returns the number of subIndex in the entry except the first.
@@ -797,7 +797,7 @@ class Node:
                                 self.SetEntry(index, i + 1, "")
                         elif self.IsRealType(values["type"]):
                             for i in xrange(len(self.Dictionary[index])):
-                                self.SetEntry(index, i + 1, 0.)                        
+                                self.SetEntry(index, i + 1, 0.)
                     else:
                         if self.IsStringType(self.UserMapping[index]["values"][subIndex]["type"]):
                             if self.IsRealType(values["type"]):
@@ -816,7 +816,7 @@ class Node:
                 self.UserMapping[index]["values"][subIndex].update(values)
                 return True
         return False
-    
+
     """
     Removes an existing entry in the User Mapping Dictionary. If a subIndex is specified
     it will remove this subIndex only if it's the last of the index. If no subIndex
@@ -843,7 +843,7 @@ class Node:
                 for j,value in enumerate(self.Dictionary[i]):
                     if (value & mask) == model:
                         self.Dictionary[i][j] = 0
-    
+
     def UpdateMapVariable(self, index, subIndex, size):
         model = index << 16
         mask = 0xFFFF << 16
@@ -855,7 +855,7 @@ class Node:
                 for j,value in enumerate(self.Dictionary[i]):
                     if (value & mask) == model:
                         self.Dictionary[i][j] = model + size
-    
+
     def RemoveLine(self, index, max, incr = 1):
         i = index
         while i < max and self.IsEntry(i + incr):
@@ -891,7 +891,7 @@ class Node:
     """
     def Print(self):
         print self.PrintString()
-    
+
     def PrintString(self):
         result = ""
         listindex = self.Dictionary.keys()
@@ -926,7 +926,7 @@ class Node:
                     values = "%X"%values
                 result += "%04X (%s): %s\n"%(index, name, values)
         return result
-            
+
     def CompileValue(self, value, index, compute = True):
         if isinstance(value, (StringType, UnicodeType)) and value.upper().find("$NODEID") != -1:
             try:
@@ -968,7 +968,7 @@ class Node:
         if result == None:
             result = FindEntryName(index, MappingDictionary, compute)
         return result
-    
+
     def GetEntryInfos(self, index, compute=True):
         result = None
         mappings = self.GetMappings()
@@ -982,7 +982,7 @@ class Node:
                 r301.update(result)
             return r301
         return result
-    
+
     def GetSubentryInfos(self, index, subIndex, compute=True):
         result = None
         mappings = self.GetMappings()
@@ -1000,7 +1000,7 @@ class Node:
                 r301["user_defined"] = False
             return r301
         return result
-    
+
     def GetTypeIndex(self, typename):
         result = None
         mappings = self.GetMappings()
@@ -1011,7 +1011,7 @@ class Node:
         if result == None:
             result = FindTypeIndex(typename, MappingDictionary)
         return result
-    
+
     def GetTypeName(self, typeindex):
         result = None
         mappings = self.GetMappings()
@@ -1022,7 +1022,7 @@ class Node:
         if result == None:
             result = FindTypeName(typeindex, MappingDictionary)
         return result
-    
+
     def GetTypeDefaultValue(self, typeindex):
         result = None
         mappings = self.GetMappings()
@@ -1033,20 +1033,20 @@ class Node:
         if result == None:
             result = FindTypeDefaultValue(typeindex, MappingDictionary)
         return result
-    
+
     def GetMapVariableList(self, compute=True):
         list = FindMapVariableList(MappingDictionary, self, compute)
         for mapping in self.GetMappings():
             list.extend(FindMapVariableList(mapping, self, compute))
         list.sort()
         return list
-    
+
     def GetMandatoryIndexes(self, node = None):
         list = FindMandatoryIndexes(MappingDictionary)
         for mapping in self.GetMappings():
             list.extend(FindMandatoryIndexes(mapping))
         return list
-    
+
     def GetCustomisableTypes(self):
         dic = {}
         for index, valuetype in CustomisableTypes:
@@ -1079,7 +1079,7 @@ class Node:
 #-------------------------------------------------------------------------------
 #                            Type and Map Variable Lists
 #-------------------------------------------------------------------------------
-    
+
     def GetTypeList(self):
         list = FindTypeList(MappingDictionary)
         for mapping in self.GetMappings():
@@ -1114,7 +1114,7 @@ class Node:
                 if mapname == self.GenerateMapName(name, index, subIndex):
                     return (index << 16) + (subIndex << 8) + size
             return None
-    
+
     def GetMapName(self, value):
         if value != 0:
             index = value >> 16
@@ -1123,7 +1123,7 @@ class Node:
             if result:
                 return self.GenerateMapName(result["name"], index, subindex)
         return "None"
-    
+
     """
     Return the list of variables that can be mapped for the current node
     """
@@ -1133,12 +1133,12 @@ class Node:
 
 def BE_to_LE(value):
     """
-    Convert Big Endian to Little Endian 
+    Convert Big Endian to Little Endian
     @param value: value expressed in Big Endian
     @param size: number of bytes generated
     @return: a string containing the value converted
     """
-    
+
     data = [char for char in value]
     data.reverse()
     return int("".join(["%2.2X"%ord(char) for char in data]), 16)
@@ -1150,7 +1150,7 @@ def LE_to_BE(value, size):
     @param size: number of bytes generated
     @return: a string containing the value converted
     """
-    
+
     data = ("%" + str(size * 2) + "." + str(size * 2) + "X") % value
     list_car = [data[i:i+2] for i in xrange(0, len(data), 2)]
     list_car.reverse()

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#This file is part of CanFestival, a library implementing CanOpen Stack. 
+#This file is part of CanFestival, a library implementing CanOpen Stack.
 #
 #Copyright (C): Edouard TISSERANT, Francis DUPIN and Laurent BESSARD
 #
@@ -45,7 +45,7 @@ for o, a in opts:
         sys.exit()
 
 fileIn = ""
-fileOut = ""        
+fileOut = ""
 if len(args) == 2:
     fileIn = args[0]
     fileOut = args[1]
@@ -73,4 +73,4 @@ if __name__ == '__main__':
             print result
             sys.exit(-1)
         print _("All done")
-    
+

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#This file is part of CanFestival, a library implementing CanOpen Stack. 
+#This file is part of CanFestival, a library implementing CanOpen Stack.
 #
 #Copyright (C): Edouard TISSERANT, Francis DUPIN and Laurent BESSARD
 #
@@ -58,16 +58,16 @@ is_string = lambda x: type(x) in (StringType, UnicodeType)
 is_boolean = lambda x: x in (0, 1)
 
 # Define checking of value for each attribute
-ENTRY_ATTRIBUTES = {"SUBNUMBER" : is_integer, 
-                    "PARAMETERNAME" : is_string, 
-                    "OBJECTTYPE" : lambda x: x in (2, 7, 8, 9), 
-                    "DATATYPE" : is_integer, 
-                    "LOWLIMIT" : is_integer, 
+ENTRY_ATTRIBUTES = {"SUBNUMBER" : is_integer,
+                    "PARAMETERNAME" : is_string,
+                    "OBJECTTYPE" : lambda x: x in (2, 7, 8, 9),
+                    "DATATYPE" : is_integer,
+                    "LOWLIMIT" : is_integer,
                     "HIGHLIMIT" : is_integer,
                     "ACCESSTYPE" : lambda x: x.upper() in ACCESS_TRANSLATE.keys(),
-                    "DEFAULTVALUE" : lambda x: True, 
+                    "DEFAULTVALUE" : lambda x: True,
                     "PDOMAPPING" : is_boolean,
-                    "OBJFLAGS" : is_integer, 
+                    "OBJFLAGS" : is_integer,
                     "PARAMETERVALUE" : lambda x: True,
                     "UPLOADFILE" : is_string,
                     "DOWNLOADFILE" : is_string}
@@ -123,7 +123,7 @@ def GetDefaultValue(Node, index, subIndex = None):
 
 # List of section names that are not index and subindex and that we can meet in
 # an EDS file
-SECTION_KEYNAMES = ["FILEINFO", "DEVICEINFO", "DUMMYUSAGE", "COMMENTS", 
+SECTION_KEYNAMES = ["FILEINFO", "DEVICEINFO", "DUMMYUSAGE", "COMMENTS",
                     "MANDATORYOBJECTS", "OPTIONALOBJECTS", "MANUFACTUREROBJECTS",
                     "STANDARDDATATYPES", "SUPPORTEDMODULES"]
 
@@ -137,7 +137,7 @@ def ExtractSections(file):
              for block in                  # for each blocks staring with '['
              ("\n"+file).split("\n[")]
              if blocktuple[0].isalnum()]   # if EntryName exists
-    
+
 
 # Function that parse an CPJ file and returns a dictionary of the informations
 def ParseCPJFile(filepath):
@@ -147,13 +147,13 @@ def ParseCPJFile(filepath):
     sections = ExtractSections(cpj_file)
     # Parse assignments for each section
     for section_name, assignments in sections:
-        
-        # Verify that section name is TOPOLOGY 
+
+        # Verify that section name is TOPOLOGY
         if section_name.upper() in "TOPOLOGY":
-            
+
             # Reset values for topology
             topology = {"Name" : "", "Nodes" : {}}
-            
+
             for assignment in assignments:
                 # Escape any comment
                 if assignment.startswith(";"):
@@ -162,13 +162,13 @@ def ParseCPJFile(filepath):
                 elif assignment.find('=') > 0:
                     # Split assignment into the two values keyname and value
                     keyname, value = assignment.split("=", 1)
-                    
+
                     # keyname must be immediately followed by the "=" sign, so we
                     # verify that there is no whitespace into keyname
                     if keyname.isalnum():
                         # value can be preceded and followed by whitespaces, so we escape them
                         value = value.strip()
-                
+
                         # First case, value starts with "0x" or "-0x", then it's an hexadecimal value
                         if value.startswith("0x") or value.startswith("-0x"):
                             try:
@@ -185,12 +185,12 @@ def ParseCPJFile(filepath):
                         # In any other case, we keep string value
                         else:
                             computed_value = value
-                        
+
                         # Search if the section name match any cpj expression
                         nodepresent_result = nodepresent_model.match(keyname.upper())
                         nodename_result = nodename_model.match(keyname.upper())
                         nodedcfname_result = nodedcfname_model.match(keyname.upper())
-                        
+
                         if keyname.upper() == "NETNAME":
                             if not is_string(computed_value):
                                 raise SyntaxError, _("Invalid value \"%s\" for keyname \"%s\" of section \"[%s]\"")%(value, keyname, section_name)
@@ -226,27 +226,27 @@ def ParseCPJFile(filepath):
                             topology["Nodes"][nodeid]["DCFName"] = computed_value
                         else:
                             raise SyntaxError, _("Keyname \"%s\" not recognised for section \"[%s]\"")%(keyname, section_name)
-                        
+
                 # All lines that are not empty and are neither a comment neither not a valid assignment
                 elif assignment.strip() != "":
                     raise SyntaxError, _("\"%s\" is not a valid CPJ line")%assignment.strip()
-        
+
             if "Number" not in topology.keys():
                 raise SyntaxError, _("\"Nodes\" keyname in \"[%s]\" section is missing")%section_name
-        
+
             if topology["Number"] != len(topology["Nodes"]):
                 raise SyntaxError, _("\"Nodes\" value not corresponding to number of nodes defined")
-            
+
             for nodeid, node in topology["Nodes"].items():
                 if "Present" not in node.keys():
                     raise SyntaxError, _("\"Node%dPresent\" keyname in \"[%s]\" section is missing")%(nodeid, section_name)
-            
+
             networks.append(topology)
-            
+
         # In other case, there is a syntax problem into CPJ file
         else:
             raise SyntaxError, _("Section \"[%s]\" is unrecognized")%section_name
-    
+
     return networks
 
 # Function that parse an EDS file and returns a dictionary of the informations
@@ -255,28 +255,28 @@ def ParseEDSFile(filepath):
     # Read file text
     eds_file = open(filepath,'r').read()
     sections = ExtractSections(eds_file)
-    
+
     # Parse assignments for each section
     for section_name, assignments in sections:
         # Reset values of entry
         values = {}
-        
+
         # Search if the section name match an index or subindex expression
         index_result = index_model.match(section_name.upper())
         subindex_result = subindex_model.match(section_name.upper())
         index_objectlinks_result = index_objectlinks_model.match(section_name.upper())
-        
+
         # Compilation of the EDS information dictionary
-        
+
         is_entry = False
-        # First case, section name is in SECTION_KEYNAMES 
+        # First case, section name is in SECTION_KEYNAMES
         if section_name.upper() in SECTION_KEYNAMES:
             # Verify that entry is not already defined
             if section_name.upper() not in eds_dict:
                 eds_dict[section_name.upper()] = values
             else:
                 raise SyntaxError, _("\"[%s]\" section is defined two times")%section_name
-        # Second case, section name is an index name 
+        # Second case, section name is an index name
         elif index_result:
             # Extract index number
             index = int(index_result.groups()[0], 16)
@@ -290,7 +290,7 @@ def ParseEDSFile(filepath):
             else:
                 raise SyntaxError, _("\"[%s]\" section is defined two times")%section_name
             is_entry = True
-        # Third case, section name is a subindex name 
+        # Third case, section name is a subindex name
         elif subindex_result:
             # Extract index and subindex number
             index, subindex = [int(value, 16) for value in subindex_result.groups()]
@@ -303,13 +303,13 @@ def ParseEDSFile(filepath):
             else:
                 raise SyntaxError, _("\"[%s]\" section is defined two times")%section_name
             is_entry = True
-        # Third case, section name is a subindex name 
+        # Third case, section name is a subindex name
         elif index_objectlinks_result:
             pass
         # In any other case, there is a syntax problem into EDS file
         else:
             raise SyntaxError, _("Section \"[%s]\" is unrecognized")%section_name
-        
+
         for assignment in assignments:
             # Escape any comment
             if assignment.startswith(";"):
@@ -318,7 +318,7 @@ def ParseEDSFile(filepath):
             elif assignment.find('=') > 0:
                 # Split assignment into the two values keyname and value
                 keyname, value = assignment.split("=", 1)
-                
+
                 # keyname must be immediately followed by the "=" sign, so we
                 # verify that there is no whitespace into keyname
                 if keyname.isalnum():
@@ -347,7 +347,7 @@ def ParseEDSFile(filepath):
                     # In any other case, we keep string value
                     else:
                         computed_value = value
-                    
+
                     # Add value to values dictionary
                     if computed_value != "":
                         # If entry is an index or a subindex
@@ -365,7 +365,7 @@ def ParseEDSFile(filepath):
             # All lines that are not empty and are neither a comment neither not a valid assignment
             elif assignment.strip() != "":
                 raise SyntaxError, _("\"%s\" is not a valid EDS line")%assignment.strip()
-        
+
         # If entry is an index or a subindex
         if is_entry:
             # Verify that entry has an ObjectType
@@ -374,7 +374,7 @@ def ParseEDSFile(filepath):
             keys = set(values.keys())
             keys.discard("subindexes")
             # Extract possible parameters and parameters required
-            possible = set(ENTRY_TYPES[values["OBJECTTYPE"]]["require"] + 
+            possible = set(ENTRY_TYPES[values["OBJECTTYPE"]]["require"] +
                            ENTRY_TYPES[values["OBJECTTYPE"]]["optional"])
             required = set(ENTRY_TYPES[values["OBJECTTYPE"]]["require"])
             # Verify that parameters defined contains all the parameters required
@@ -393,10 +393,10 @@ def ParseEDSFile(filepath):
                 else:
                     attributes = _("Attribute \"%s\" is")%unsupported.pop()
                 raise SyntaxError, _("Error on section \"[%s]\":\n%s unsupported for a %s entry")%(section_name, attributes, ENTRY_TYPES[values["OBJECTTYPE"]]["name"])
-            
+
             VerifyValue(values, section_name, "ParameterValue")
             VerifyValue(values, section_name, "DefaultValue")
-            
+
     return eds_dict
 
 def VerifyValue(values, section_name, param):
@@ -429,17 +429,17 @@ def WriteFile(filepath, content):
 def GenerateFileContent(Node, filepath):
     # Dictionary of each index contents
     indexContents = {}
-    
+
     # Extract local time
     current_time = localtime()
     # Extract node informations
     nodename = Node.GetNodeName()
-    nodetype = Node.GetNodeType() 
+    nodetype = Node.GetNodeType()
     description = Node.GetNodeDescription()
-    
+
     # Retreiving lists of indexes defined
     entries = Node.GetIndexes()
-    
+
     # Generate FileInfo section
     fileContent = "[FileInfo]\n"
     fileContent += "FileName=%s\n"%os.path.split(filepath)[-1]
@@ -463,7 +463,7 @@ def GenerateFileContent(Node, filepath):
         fileContent += "PM\n"
     fileContent += "ModificationDate=%s\n"%strftime("%m-%d-%Y", current_time)
     fileContent += "ModifiedBy=CANFestival\n"
-    
+
     # Generate DeviceInfo section
     fileContent += "\n[DeviceInfo]\n"
     fileContent += "VendorName=CANFestival\n"
@@ -494,7 +494,7 @@ def GenerateFileContent(Node, filepath):
     fileContent += "NrOfTXPDO=%d\n"%len([idx for idx in entries if 0x1800 <= idx <= 0x19FF])
     # LSS not supported as soon as DS-302 was not fully implemented
     fileContent += "LSS_Supported=0\n"
-    
+
     # Generate Dummy Usage section
     fileContent += "\n[DummyUsage]\n"
     fileContent += "Dummy0001=0\n"
@@ -508,12 +508,12 @@ def GenerateFileContent(Node, filepath):
     # Generate Comments section
     fileContent += "\n[Comments]\n"
     fileContent += "Lines=0\n"
-    
+
     # List of entry by type (Mandatory, Optional or Manufacturer
     mandatories = []
     optionals = []
     manufacturers = []
-    
+
     # Remove all unused PDO
 ##    for entry in entries[:]:
 ##        if 0x1600 <= entry < 0x1800 or 0x1A00 <= entry < 0x1C00:
@@ -521,7 +521,7 @@ def GenerateFileContent(Node, filepath):
 ##            if subentry_value is None or subentry_value == 0:
 ##                entries.remove(entry)
 ##                entries.remove(entry - 0x200)
-                
+
     # For each entry, we generate the entry section or sections if there is subindexes
     for entry in entries:
         # Extract infos and values for the entry
@@ -550,10 +550,10 @@ def GenerateFileContent(Node, filepath):
                 text += "ObjectType=0x8\n"
             else:
                 text += "ObjectType=0x9\n"
-            
+
             # Generate EDS informations for subindexes of the entry in a separate text
             subtext = ""
-            # Reset number of subindex defined 
+            # Reset number of subindex defined
             nb_subentry = 0
             for subentry, value in enumerate(values):
                 # Extract the informations of each subindex
@@ -570,15 +570,15 @@ def GenerateFileContent(Node, filepath):
                     else:
                         subtext += "DefaultValue=%s\n"%value
                     subtext += "PDOMapping=%s\n"%BOOL_TRANSLATE[subentry_infos["pdo"]]
-                    # Increment number of subindex defined 
+                    # Increment number of subindex defined
                     nb_subentry += 1
             # Write number of subindex defined for the entry
             text += "SubNumber=%d\n"%nb_subentry
             # Write subindex definitions
             text += subtext
-        
+
         # Then we add the entry in the right list
-        
+
         # First case, entry is between 0x2000 and 0x5FFF, then it's a manufacturer entry
         if 0x2000 <= entry <= 0x5FFF:
             manufacturers.append(entry)
@@ -590,12 +590,12 @@ def GenerateFileContent(Node, filepath):
             optionals.append(entry)
         # Save text of the entry in the dictiionary of contents
         indexContents[entry] = text
-    
+
     # Before generate File Content we sort the entry list
     manufacturers.sort()
     mandatories.sort()
     optionals.sort()
-    
+
     # Generate Definition of mandatory objects
     fileContent += "\n[MandatoryObjects]\n"
     fileContent += "SupportedObjects=%d\n"%len(mandatories)
@@ -604,7 +604,7 @@ def GenerateFileContent(Node, filepath):
     # Write mandatory entries
     for entry in mandatories:
         fileContent += indexContents[entry]
-    
+
     # Generate Definition of optional objects
     fileContent += "\n[OptionalObjects]\n"
     fileContent += "SupportedObjects=%d\n"%len(optionals)
@@ -622,7 +622,7 @@ def GenerateFileContent(Node, filepath):
     # Write manufacturer entries
     for entry in manufacturers:
         fileContent += indexContents[entry]
-    
+
     # Return File Content
     return fileContent
 
@@ -637,21 +637,21 @@ def GenerateEDSFile(filepath, node):
         return None
     except ValueError, message:
         return _("Unable to generate EDS file\n%s")%message
-    
+
 # Function that generate the CPJ file content for the nodelist
 def GenerateCPJContent(nodelist):
     nodes = nodelist.SlaveNodes.keys()
     nodes.sort()
-    
+
     fileContent = "[TOPOLOGY]\n"
     fileContent += "NetName=%s\n"%nodelist.GetNetworkName()
     fileContent += "Nodes=0x%2.2X\n"%len(nodes)
-    
+
     for nodeid in nodes:
         fileContent += "Node%dPresent=0x01\n"%nodeid
         fileContent += "Node%dName=%s\n"%(nodeid, nodelist.SlaveNodes[nodeid]["Name"])
         fileContent += "Node%dDCFName=%s\n"%(nodeid, nodelist.SlaveNodes[nodeid]["EDS"])
-        
+
     fileContent += "EDSBaseName=eds\n"
     return fileContent
 
@@ -679,7 +679,7 @@ def GenerateNode(filepath, nodeID = 0):
                     Node.SetSpecificMenu(AddMenuEntries)
                 except:
                     pass
-        # Read all entries in the EDS dictionary 
+        # Read all entries in the EDS dictionary
         for entry, values in eds_dict.iteritems():
             # All sections with a name in keynames are escaped
             if entry in SECTION_KEYNAMES:
@@ -687,7 +687,7 @@ def GenerateNode(filepath, nodeID = 0):
             else:
                 # Extract informations for the entry
                 entry_infos = Node.GetEntryInfos(entry)
-                
+
                 # If no informations are available, then we write them
                 if not entry_infos:
                     # First case, entry is a DOMAIN or VAR
@@ -699,9 +699,9 @@ def GenerateNode(filepath, nodeID = 0):
                         # Add mapping for entry
                         Node.AddMappingEntry(entry, name = values["PARAMETERNAME"], struct = 1)
                         # Add mapping for first subindex
-                        Node.AddMappingEntry(entry, 0, values = {"name" : values["PARAMETERNAME"], 
-                                                                 "type" : values["DATATYPE"], 
-                                                                 "access" : ACCESS_TRANSLATE[values["ACCESSTYPE"].upper()], 
+                        Node.AddMappingEntry(entry, 0, values = {"name" : values["PARAMETERNAME"],
+                                                                 "type" : values["DATATYPE"],
+                                                                 "access" : ACCESS_TRANSLATE[values["ACCESSTYPE"].upper()],
                                                                  "pdo" : values.get("PDOMAPPING", 0) == 1})
                     # Second case, entry is an ARRAY or RECORD
                     elif values["OBJECTTYPE"] in [8, 9]:
@@ -715,11 +715,11 @@ def GenerateNode(filepath, nodeID = 0):
                         for subindex in xrange(1, int(max_subindex) + 1):
                             # if subindex is defined
                             if subindex in values["subindexes"]:
-                                Node.AddMappingEntry(entry, subindex, values = {"name" : values["subindexes"][subindex]["PARAMETERNAME"], 
-                                                                                "type" : values["subindexes"][subindex]["DATATYPE"], 
-                                                                                "access" : ACCESS_TRANSLATE[values["subindexes"][subindex]["ACCESSTYPE"].upper()], 
+                                Node.AddMappingEntry(entry, subindex, values = {"name" : values["subindexes"][subindex]["PARAMETERNAME"],
+                                                                                "type" : values["subindexes"][subindex]["DATATYPE"],
+                                                                                "access" : ACCESS_TRANSLATE[values["subindexes"][subindex]["ACCESSTYPE"].upper()],
                                                                                 "pdo" : values["subindexes"][subindex].get("PDOMAPPING", 0) == 1})
-                            # if not, we add a mapping for compatibility 
+                            # if not, we add a mapping for compatibility
                             else:
                                 Node.AddMappingEntry(entry, subindex, values = {"name" : "Compatibility Entry", "type" : 0x05, "access" : "rw", "pdo" : False})
 ##                    # Third case, entry is an RECORD
@@ -733,16 +733,16 @@ def GenerateNode(filepath, nodeID = 0):
 ##                        Node.AddMappingEntry(entry, 0, values = {"name" : "Number of Entries", "type" : 0x05, "access" : "ro", "pdo" : False})
 ##                        # Verify that second subindex is defined
 ##                        if 1 in values["subindexes"]:
-##                            Node.AddMappingEntry(entry, 1, values = {"name" : values["PARAMETERNAME"] + " %d[(sub)]", 
-##                                                                     "type" : values["subindexes"][1]["DATATYPE"], 
-##                                                                     "access" : ACCESS_TRANSLATE[values["subindexes"][1]["ACCESSTYPE"].upper()], 
+##                            Node.AddMappingEntry(entry, 1, values = {"name" : values["PARAMETERNAME"] + " %d[(sub)]",
+##                                                                     "type" : values["subindexes"][1]["DATATYPE"],
+##                                                                     "access" : ACCESS_TRANSLATE[values["subindexes"][1]["ACCESSTYPE"].upper()],
 ##                                                                     "pdo" : values["subindexes"][1].get("PDOMAPPING", 0) == 1,
 ##                                                                     "nbmax" : 0xFE})
 ##                        else:
 ##                            raise SyntaxError, "Error on entry 0x%4.4X:\nA RECORD entry must have at least 2 subindexes"%entry
-                
+
                 # Define entry for the new node
-                
+
                 # First case, entry is a DOMAIN or VAR
                 if values["OBJECTTYPE"] in [2, 7]:
                     # Take default value if it is defined
@@ -761,7 +761,7 @@ def GenerateNode(filepath, nodeID = 0):
                         # Extract maximum subindex number defined
                         max_subindex = max(values["subindexes"].keys())
                         Node.AddEntry(entry, value = [])
-                        # Define value for all subindexes except the first 
+                        # Define value for all subindexes except the first
                         for subindex in xrange(1, int(max_subindex) + 1):
                             # Take default value if it is defined and entry is defined
                             if subindex in values["subindexes"] and "PARAMETERVALUE" in values["subindexes"][subindex]:

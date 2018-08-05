@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#This file is part of CanFestival, a library implementing CanOpen Stack. 
+#This file is part of CanFestival, a library implementing CanOpen Stack.
 #
 #Copyright (C): Edouard TISSERANT and Francis DUPIN
 #
@@ -117,7 +117,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
     global type
     global internal_types
     global default_string_size
-    
+
     texts = {}
     texts["maxPDOtransmit"] = 0
     texts["NodeName"] = Node.GetNodeName()
@@ -127,9 +127,9 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
     texts["iam_a_slave"] = 0
     if (texts["NodeType"] == "slave"):
         texts["iam_a_slave"] = 1
-    
+
     default_string_size = Node.GetDefaultStringSize()
-    
+
     # Compiling lists of indexes
     rangelist = [idx for idx in Node.GetIndexes() if 0 <= idx <= 0x260]
     listIndex = [idx for idx in Node.GetIndexes() if 0x1000 <= idx <= 0xFFFF]
@@ -138,8 +138,8 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
 
 #-------------------------------------------------------------------------------
 #                       Declaration of the value range types
-#-------------------------------------------------------------------------------    
-    
+#-------------------------------------------------------------------------------
+
     valueRangeContent = ""
     strDefine = "\n#define valueRange_EMC 0x9F /* Type for index 0x1003 subindex 0x00 (only set of value 0 is possible) */"
     strSwitch = """    case valueRange_EMC:
@@ -193,7 +193,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
             strIndex += "\n/* index 0x%(index)04X :   Mapped variable %(EntryName)s */\n"%texts
         else:
             strIndex += "\n/* index 0x%(index)04X :   %(EntryName)s. */\n"%texts
-        
+
         # Entry type is VAR
         if not isinstance(values, ListType):
             subentry_infos = Node.GetSubentryInfos(index, 0)
@@ -225,7 +225,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                 texts["value"] = values[0]
             texts["subIndexType"] = typeinfos[0]
             strIndex += "                    %(subIndexType)s %(NodeName)s_highestSubIndex_obj%(index)04X = %(value)d; /* number of subindex - 1*/\n"%texts
-            
+
             # Entry type is RECORD
             if entry_infos["struct"] & OD_IdenticalSubindexes:
                 subentry_infos = Node.GetSubentryInfos(index, 1)
@@ -265,7 +265,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                             strIndex += "                      %s%s%s\n"%(value, sep, comment)
                     strIndex += "                    };\n"
             else:
-                
+
                 texts["parent"] = UnDigitName(FormatName(entry_infos["name"]))
                 # Entry type is ARRAY
                 for subIndex, value in enumerate(values):
@@ -286,7 +286,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                             mappedVariableContent += "%(subIndexType)s %(parent)s_%(name)s%(suffixe)s = %(value)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x%(subIndex)02X */\n"%texts
                         else:
                             strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X_%(name)s%(suffixe)s = %(value)s;%(comment)s\n"%texts
-        
+
         # Generating Dictionary C++ entry
         if callbacks:
             if index in variablelist:
@@ -349,7 +349,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                 pointedVariableContent += "%s* %s = &%s;\n"%(typeinfos[0], pointer_name, name)
         strIndex += "                     };\n"
         indexContents[index] = strIndex
-        
+
 #-------------------------------------------------------------------------------
 #                     Declaration of Particular Parameters
 #-------------------------------------------------------------------------------
@@ -359,16 +359,16 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
         texts["EntryName"] = entry_infos["name"]
         indexContents[0x1003] = """\n/* index 0x1003 :   %(EntryName)s */
                     UNS8 %(NodeName)s_highestSubIndex_obj1003 = 0; /* number of subindex - 1*/
-                    UNS32 %(NodeName)s_obj1003[] = 
+                    UNS32 %(NodeName)s_obj1003[] =
                     {
                       0x0	/* 0 */
                     };
-                    ODCallback_t %(NodeName)s_Index1003_callbacks[] = 
+                    ODCallback_t %(NodeName)s_Index1003_callbacks[] =
                      {
                        NULL,
                        NULL,
                      };
-                    subindex %(NodeName)s_Index1003[] = 
+                    subindex %(NodeName)s_Index1003[] =
                      {
                        { RW, valueRange_EMC, sizeof (UNS8), (void*)&%(NodeName)s_highestSubIndex_obj1003 },
                        { RO, uint32, sizeof (UNS32), (void*)&%(NodeName)s_obj1003[0] }
@@ -406,25 +406,25 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                     UNS8 %(NodeName)s_highestSubIndex_obj1016 = 0;
                     UNS32 %(NodeName)s_obj1016[]={0};
 """%texts
-    
+
     if 0x1017 not in communicationlist:
         entry_infos = Node.GetEntryInfos(0x1017)
         texts["EntryName"] = entry_infos["name"]
-        indexContents[0x1017] = """\n/* index 0x1017 :   %(EntryName)s */ 
+        indexContents[0x1017] = """\n/* index 0x1017 :   %(EntryName)s */
                     UNS16 %(NodeName)s_obj1017 = 0x0;   /* 0 */
 """%texts
-    
+
     if 0x100C not in communicationlist:
         entry_infos = Node.GetEntryInfos(0x100C)
         texts["EntryName"] = entry_infos["name"]
-        indexContents[0x100C] = """\n/* index 0x100C :   %(EntryName)s */ 
+        indexContents[0x100C] = """\n/* index 0x100C :   %(EntryName)s */
                     UNS16 %(NodeName)s_obj100C = 0x0;   /* 0 */
 """%texts
-    
+
     if 0x100D not in communicationlist:
         entry_infos = Node.GetEntryInfos(0x100D)
         texts["EntryName"] = entry_infos["name"]
-        indexContents[0x100D] = """\n/* index 0x100D :   %(EntryName)s */ 
+        indexContents[0x100D] = """\n/* index 0x100D :   %(EntryName)s */
                     UNS8 %(NodeName)s_obj100D = 0x0;   /* 0 */
 """%texts
 
@@ -501,7 +501,7 @@ const UNS8 %(NodeName)s_iam_a_slave = %(iam_a_slave)d;
         fileContent += declaration + " = " + initializer + ";\n"
     else:
         fileContent += "TIMER_HANDLE %(NodeName)s_heartBeatTimers[1];\n"%texts
-    
+
     fileContent += """
 /*
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -523,7 +523,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 """ + pointedVariableContent
 
     fileContent += """
-const indextable %(NodeName)s_objdict[] = 
+const indextable %(NodeName)s_objdict[] =
 {
 """%texts
     fileContent += strDeclareIndex
@@ -544,7 +544,7 @@ const indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, OD
 	return &%(NodeName)s_objdict[i];
 }
 
-/* 
+/*
  * To count at which received SYNC a PDO must be sent.
  * Even if no pdoTransmit are defined, at least one entry is computed
  * for compilations issues.
@@ -556,7 +556,7 @@ s_PDO_status %(NodeName)s_PDO_status[%(maxPDOtransmit)d] = {"""%texts
 
     fileContent += strQuickIndex
     fileContent += """
-const UNS16 %(NodeName)s_ObjdictSize = sizeof(%(NodeName)s_objdict)/sizeof(%(NodeName)s_objdict[0]); 
+const UNS16 %(NodeName)s_ObjdictSize = sizeof(%(NodeName)s_objdict)/sizeof(%(NodeName)s_objdict[0]);
 
 CO_Data %(NodeName)s_Data = CANOPEN_NODE_DATA_INITIALIZER(%(NodeName)s);
 
@@ -581,9 +581,9 @@ const indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, OD
 extern CO_Data %(NodeName)s_Data;
 """%texts
     HeaderFileContent += strDeclareHeader
-    
+
     HeaderFileContent += "\n#endif // %(file_include_name)s\n"%texts
-    
+
     return fileContent,HeaderFileContent
 
 #-------------------------------------------------------------------------------

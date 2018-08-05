@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#This file is part of CanFestival, a library implementing CanOpen Stack. 
+#This file is part of CanFestival, a library implementing CanOpen Stack.
 #
 #Copyright (C): Edouard TISSERANT, Francis DUPIN and Laurent BESSARD
 #
@@ -35,9 +35,9 @@ ScriptDirectory = os.path.split(__file__)[0]
 #-------------------------------------------------------------------------------
 
 
-[ID_COMMUNICATIONDIALOG, ID_COMMUNICATIONDIALOGPOSSIBLEINDEXES, 
- ID_COMMUNICATIONDIALOGCURRENTINDEXES, ID_COMMUNICATIONDIALOGSELECT, 
- ID_COMMUNICATIONDIALOGUNSELECT, ID_COMMUNICATIONDIALOGSTATICTEXT1, 
+[ID_COMMUNICATIONDIALOG, ID_COMMUNICATIONDIALOGPOSSIBLEINDEXES,
+ ID_COMMUNICATIONDIALOGCURRENTINDEXES, ID_COMMUNICATIONDIALOGSELECT,
+ ID_COMMUNICATIONDIALOGUNSELECT, ID_COMMUNICATIONDIALOGSTATICTEXT1,
  ID_COMMUNICATIONDIALOGSTATICTEXT2
 ] = [wx.NewId() for _init_ctrls in range(7)]
 
@@ -91,7 +91,7 @@ class CommunicationDialog(wx.Dialog):
         self.LeftGridSizer = wx.FlexGridSizer(cols=1, hgap=0, rows=2, vgap=5)
         self.MiddleGridSizer = wx.FlexGridSizer(cols=1, hgap=0, rows=2, vgap=40)
         self.RightGridSizer = wx.FlexGridSizer(cols=1, hgap=0, rows=2, vgap=5)
-        
+
         self._init_coll_flexGridSizer1_Items(self.flexGridSizer1)
         self._init_coll_flexGridSizer1_Growables(self.flexGridSizer1)
         self._init_coll_MainSizer_Items(self.MainSizer)
@@ -102,7 +102,7 @@ class CommunicationDialog(wx.Dialog):
         self._init_coll_MiddleGridSizer_Growables(self.MiddleGridSizer)
         self._init_coll_RightGridSizer_Items(self.RightGridSizer)
         self._init_coll_RightGridSizer_Growables(self.RightGridSizer)
-        
+
         self.SetSizer(self.flexGridSizer1)
 
     def _init_ctrls(self, prnt):
@@ -119,7 +119,7 @@ class CommunicationDialog(wx.Dialog):
 
         self.PossibleIndexes = wx.ListBox(choices=[],
               id=ID_COMMUNICATIONDIALOGPOSSIBLEINDEXES,
-              name='PossibleIndexes', parent=self, pos=wx.Point(0, 0), 
+              name='PossibleIndexes', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 0), style=wx.LB_EXTENDED)
         self.Bind(wx.EVT_LISTBOX_DCLICK, self.OnPossibleIndexesDClick,
               id=ID_COMMUNICATIONDIALOGPOSSIBLEINDEXES)
@@ -143,13 +143,13 @@ class CommunicationDialog(wx.Dialog):
 
         self.CurrentIndexes = wx.ListBox(choices=[],
               id=ID_COMMUNICATIONDIALOGCURRENTINDEXES, name='CurrentIndexes',
-              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 0), 
+              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 0),
               style=wx.LB_EXTENDED)
         self.Bind(wx.EVT_LISTBOX_DCLICK, self.OnCurrentIndexesDClick,
               id=ID_COMMUNICATIONDIALOGCURRENTINDEXES)
 
         self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL)
-        
+
         self._init_sizers()
 
     def __init__(self, parent):
@@ -160,15 +160,15 @@ class CommunicationDialog(wx.Dialog):
 
     def SetIndexDictionary(self, dictionary):
         self.IndexDictionary = dictionary
-        
+
     def SetCurrentList(self, list):
         self.CurrentList = []
         self.CurrentList.extend(list)
         self.CurrentList.sort()
-        
+
     def GetCurrentList(self):
         return self.CurrentList
-        
+
     def RefreshLists(self):
         self.PossibleIndexes.Clear()
         self.CurrentIndexes.Clear()
@@ -221,13 +221,13 @@ class CommunicationDialog(wx.Dialog):
 #-------------------------------------------------------------------------------
 
 
-[ID_MAPVARIABLEDIALOG, ID_MAPVARIABLEDIALOGINDEX, 
- ID_MAPVARIABLEDIALOGINDEXNAME, ID_MAPVARIABLEDIALOGSPACER, 
- ID_MAPVARIABLEDIALOGSPACER2, ID_MAPVARIABLEDIALOGNUMBER, 
- ID_MAPVARIABLEDIALOGRADIOBUTTON1, ID_MAPVARIABLEDIALOGRADIOBUTTON2, 
- ID_MAPVARIABLEDIALOGRADIOBUTTON3, ID_MAPVARIABLEDIALOGSTATICTEXT1, 
- ID_MAPVARIABLEDIALOGSTATICTEXT2, ID_MAPVARIABLEDIALOGSTATICTEXT3, 
- ID_MAPVARIABLEDIALOGSTATICTEXT4, 
+[ID_MAPVARIABLEDIALOG, ID_MAPVARIABLEDIALOGINDEX,
+ ID_MAPVARIABLEDIALOGINDEXNAME, ID_MAPVARIABLEDIALOGSPACER,
+ ID_MAPVARIABLEDIALOGSPACER2, ID_MAPVARIABLEDIALOGNUMBER,
+ ID_MAPVARIABLEDIALOGRADIOBUTTON1, ID_MAPVARIABLEDIALOGRADIOBUTTON2,
+ ID_MAPVARIABLEDIALOGRADIOBUTTON3, ID_MAPVARIABLEDIALOGSTATICTEXT1,
+ ID_MAPVARIABLEDIALOGSTATICTEXT2, ID_MAPVARIABLEDIALOGSTATICTEXT3,
+ ID_MAPVARIABLEDIALOGSTATICTEXT4,
 ] = [wx.NewId() for _init_ctrls in range(13)]
 
 class MapVariableDialog(wx.Dialog):
@@ -252,7 +252,7 @@ class MapVariableDialog(wx.Dialog):
         parent.AddWindow(self.IndexName, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.radioButton3, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.Number, 0, border=0, flag=wx.GROW)
-        
+
     def _init_coll_MainSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
         parent.AddGrowableCol(2)
@@ -260,12 +260,12 @@ class MapVariableDialog(wx.Dialog):
     def _init_sizers(self):
         self.flexGridSizer1 = wx.FlexGridSizer(cols=1, hgap=0, rows=2, vgap=10)
         self.MainSizer = wx.FlexGridSizer(cols=3, hgap=30, rows=4, vgap=5)
-        
+
         self._init_coll_flexGridSizer1_Items(self.flexGridSizer1)
         self._init_coll_flexGridSizer1_Growables(self.flexGridSizer1)
         self._init_coll_MainSizer_Items(self.MainSizer)
         self._init_coll_MainSizer_Growables(self.MainSizer)
-        
+
         self.SetSizer(self.flexGridSizer1)
 
     def _init_ctrls(self, prnt):
@@ -313,35 +313,35 @@ class MapVariableDialog(wx.Dialog):
               id=ID_MAPVARIABLEDIALOGRADIOBUTTON3)
 
         self.Index = wx.TextCtrl(id=ID_MAPVARIABLEDIALOGINDEX, name='Index',
-              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 25), 
+              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 25),
               style=0, value='0x2000')
-        
+
         self.IndexName = wx.TextCtrl(id=ID_MAPVARIABLEDIALOGINDEXNAME,
               name='IndexName', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 24), style=0, value=_('Undefined'))
-        
+
         self.Number = wx.TextCtrl(id=ID_MAPVARIABLEDIALOGNUMBER,
               name='Number', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 24), style=wx.TE_RIGHT, value='0')
-        
+
         self.Spacer = wx.Panel(id=ID_MAPVARIABLEDIALOGSPACER,
               name='Spacer', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 0), style=wx.TAB_TRAVERSAL)
-        
+
         self.Spacer2 = wx.Panel(id=ID_MAPVARIABLEDIALOGSPACER2,
               name='Spacer2', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 0), style=wx.TAB_TRAVERSAL)
-        
+
         self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL)
         self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.ButtonSizer.GetAffirmativeButton().GetId())
-        
+
         self._init_sizers()
 
     def __init__(self, parent):
         self._init_ctrls(parent)
         self.staticText4.Enable(False)
         self.Number.Enable(False)
-        
+
     def SetIndex(self, index):
         self.Index.SetValue("0x%04X"%index)
 
@@ -407,12 +407,12 @@ class MapVariableDialog(wx.Dialog):
 #-------------------------------------------------------------------------------
 
 
-[ID_USERTYPEDIALOG, ID_USERTYPEDIALOGSPACER, 
- ID_USERTYPEDIALOGTYPE, ID_USERTYPEDIALOGMAX, 
- ID_USERTYPEDIALOGMIN, ID_USERTYPEDIALOGLENGTH, 
- ID_USERTYPEDIALOGSTATICBOX1, ID_USERTYPEDIALOGSTATICTEXT1, 
- ID_USERTYPEDIALOGSTATICTEXT2, ID_USERTYPEDIALOGSTATICTEXT3, 
- ID_USERTYPEDIALOGSTATICTEXT4,  
+[ID_USERTYPEDIALOG, ID_USERTYPEDIALOGSPACER,
+ ID_USERTYPEDIALOGTYPE, ID_USERTYPEDIALOGMAX,
+ ID_USERTYPEDIALOGMIN, ID_USERTYPEDIALOGLENGTH,
+ ID_USERTYPEDIALOGSTATICBOX1, ID_USERTYPEDIALOGSTATICTEXT1,
+ ID_USERTYPEDIALOGSTATICTEXT2, ID_USERTYPEDIALOGSTATICTEXT3,
+ ID_USERTYPEDIALOGSTATICTEXT4,
 ] = [wx.NewId() for _init_ctrls in range(11)]
 
 class UserTypeDialog(wx.Dialog):
@@ -447,17 +447,17 @@ class UserTypeDialog(wx.Dialog):
         parent.AddWindow(self.Max, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.staticText4, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.Length, 0, border=0, flag=wx.GROW)
-        
+
     def _init_coll_RightBoxGridSizer_Growables(self, parent):
         parent.AddGrowableCol(1)
-        
+
     def _init_sizers(self):
         self.flexGridSizer1 = wx.FlexGridSizer(cols=1, hgap=0, rows=2, vgap=10)
         self.MainSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.LeftGridSizer = wx.FlexGridSizer(cols=1, hgap=0, rows=3, vgap=5)
         self.RightBoxSizer = wx.StaticBoxSizer(self.staticBox1, wx.VERTICAL)
         self.RightBoxGridSizer = wx.FlexGridSizer(cols=2, hgap=5, rows=3, vgap=10)
-        
+
         self._init_coll_flexGridSizer1_Items(self.flexGridSizer1)
         self._init_coll_flexGridSizer1_Growables(self.flexGridSizer1)
         self._init_coll_MainSizer_Items(self.MainSizer)
@@ -466,7 +466,7 @@ class UserTypeDialog(wx.Dialog):
         self._init_coll_RightBoxSizer_Items(self.RightBoxSizer)
         self._init_coll_RightBoxGridSizer_Items(self.RightBoxGridSizer)
         self._init_coll_RightBoxGridSizer_Growables(self.RightBoxGridSizer)
-        
+
         self.SetSizer(self.flexGridSizer1)
 
     def _init_ctrls(self, prnt):
@@ -498,7 +498,7 @@ class UserTypeDialog(wx.Dialog):
               pos=wx.Point(0, 0), size=wx.Size(80, 17), style=0)
 
         self.Min = wx.TextCtrl(id=ID_USERTYPEDIALOGMIN, name='Min',
-              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24), 
+              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24),
               style=wx.TE_RIGHT, value='0')
 
         self.staticText3 = wx.StaticText(id=ID_USERTYPEDIALOGSTATICTEXT3,
@@ -506,7 +506,7 @@ class UserTypeDialog(wx.Dialog):
               pos=wx.Point(0, 0), size=wx.Size(80, 17), style=0)
 
         self.Max = wx.TextCtrl(id=ID_USERTYPEDIALOGMAX, name='Max',
-              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24), 
+              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24),
               style=wx.TE_RIGHT, value='0')
 
         self.staticText4 = wx.StaticText(id=ID_USERTYPEDIALOGSTATICTEXT4,
@@ -514,17 +514,17 @@ class UserTypeDialog(wx.Dialog):
               pos=wx.Point(0, 0), size=wx.Size(80, 17), style=0)
 
         self.Length = wx.TextCtrl(id=ID_USERTYPEDIALOGLENGTH, name='Length',
-              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24), 
+              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24),
               style=wx.TE_RIGHT, value='0')
 
         self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL)
         self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.ButtonSizer.GetAffirmativeButton().GetId())
-        
+
         self._init_sizers()
 
     def __init__(self, parent):
         self._init_ctrls(parent)
-        
+
         self.TypeDictionary = {}
 
     def OnOK(self, event):
@@ -592,7 +592,7 @@ class UserTypeDialog(wx.Dialog):
     def OnTypeChoice(self, event):
         self.RefreshValues()
         event.Skip()
-    
+
     def RefreshValues(self):
         name = self.Type.GetStringSelection()
         if name != "":
@@ -634,12 +634,12 @@ class UserTypeDialog(wx.Dialog):
 #-------------------------------------------------------------------------------
 
 
-[ID_NODEINFOSDIALOG, ID_NODEINFOSDIALOGNAME, 
- ID_NODEINFOSDIALOGNODEID, ID_NODEINFOSDIALOGTYPE, 
- ID_NODEINFOSDIALOGDEFAULTSTRINGSIZE, ID_NODEINFOSDIALOGDESCRIPTION, 
- ID_NODEINFOSDIALOGSTATICTEXT1, ID_NODEINFOSDIALOGSTATICTEXT2, 
- ID_NODEINFOSDIALOGSTATICTEXT3, ID_NODEINFOSDIALOGSTATICTEXT4, 
- ID_NODEINFOSDIALOGSTATICTEXT5, 
+[ID_NODEINFOSDIALOG, ID_NODEINFOSDIALOGNAME,
+ ID_NODEINFOSDIALOGNODEID, ID_NODEINFOSDIALOGTYPE,
+ ID_NODEINFOSDIALOGDEFAULTSTRINGSIZE, ID_NODEINFOSDIALOGDESCRIPTION,
+ ID_NODEINFOSDIALOGSTATICTEXT1, ID_NODEINFOSDIALOGSTATICTEXT2,
+ ID_NODEINFOSDIALOGSTATICTEXT3, ID_NODEINFOSDIALOGSTATICTEXT4,
+ ID_NODEINFOSDIALOGSTATICTEXT5,
 ] = [wx.NewId() for _init_ctrls in range(11)]
 
 def GetNodeTypes():
@@ -674,14 +674,14 @@ class NodeInfosDialog(wx.Dialog):
     def _init_sizers(self):
         self.flexGridSizer1 = wx.FlexGridSizer(cols=1, hgap=0, rows=2, vgap=10)
         self.MainSizer = wx.FlexGridSizer(cols=1, hgap=0, rows=8, vgap=5)
-        
+
         self._init_coll_flexGridSizer1_Items(self.flexGridSizer1)
         self._init_coll_flexGridSizer1_Growables(self.flexGridSizer1)
         self._init_coll_MainSizer_Items(self.MainSizer)
         self._init_coll_MainSizer_Growables(self.MainSizer)
-        
+
         self.SetSizer(self.flexGridSizer1)
-        
+
     def _init_ctrls(self, prnt):
         wx.Dialog.__init__(self, id=ID_NODEINFOSDIALOG,
               name='NodeInfosDialog', parent=prnt, pos=wx.Point(376, 223),
@@ -694,7 +694,7 @@ class NodeInfosDialog(wx.Dialog):
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.NodeName = wx.TextCtrl(id=ID_NODEINFOSDIALOGNAME, name='NodeName',
-              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24), 
+              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24),
               style=0, value='')
 
         self.staticText2 = wx.StaticText(id=ID_NODEINFOSDIALOGSTATICTEXT2,
@@ -702,7 +702,7 @@ class NodeInfosDialog(wx.Dialog):
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.NodeID = wx.TextCtrl(id=ID_NODEINFOSDIALOGNODEID, name='NodeID',
-              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 25), 
+              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 25),
               style=wx.TE_RIGHT, value='')
 
         self.staticText3 = wx.StaticText(id=ID_NODEINFOSDIALOGSTATICTEXT3,
@@ -717,29 +717,29 @@ class NodeInfosDialog(wx.Dialog):
               label=_('Default String Size:'), name='staticText4', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
-        self.DefaultStringSize = wx.SpinCtrl(id=ID_NODEINFOSDIALOGDEFAULTSTRINGSIZE, 
-              name='DefaultStringSize', parent=self, pos=wx.Point(0, 0), 
+        self.DefaultStringSize = wx.SpinCtrl(id=ID_NODEINFOSDIALOGDEFAULTSTRINGSIZE,
+              name='DefaultStringSize', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 25), style=wx.TE_RIGHT)
-        
+
         self.staticText5 = wx.StaticText(id=ID_NODEINFOSDIALOGSTATICTEXT5,
               label=_('Description:'), name='staticText5', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
-        self.Description = wx.TextCtrl(id=ID_NODEINFOSDIALOGDESCRIPTION, 
-              name='Description', parent=self, pos=wx.Point(0, 0), 
+        self.Description = wx.TextCtrl(id=ID_NODEINFOSDIALOGDESCRIPTION,
+              name='Description', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 24), style=0, value='')
 
         self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL)
         self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.ButtonSizer.GetAffirmativeButton().GetId())
-        
+
         self._init_sizers()
 
     def __init__(self, parent):
         self._init_ctrls(parent)
-        
+
         self.staticText2.Hide()
         self.NodeID.Hide()
-        
+
         for node_type in GetNodeTypes():
             self.Type.Append(_(node_type))
 
@@ -764,7 +764,7 @@ class NodeInfosDialog(wx.Dialog):
             self.NodeName.SetFocus()
         else:
             self.EndModal(wx.ID_OK)
-    
+
     def SetValues(self, name, id, type, description, defaultstringsize):
         self.NodeName.SetValue(name)
         self.NodeID.SetValue("0x%02X"%id)
@@ -787,17 +787,17 @@ class NodeInfosDialog(wx.Dialog):
 #-------------------------------------------------------------------------------
 
 
-[ID_CREATENODEDIALOG, ID_CREATENODEDIALOGEMERGENCY, 
- ID_CREATENODEDIALOGGENSYNC, ID_CREATENODEDIALOGSPACER, 
- ID_CREATENODEDIALOGNAME, ID_CREATENODEDIALOGNMT_HEARTBEAT, 
- ID_CREATENODEDIALOGNMT_NODEGUARDING, ID_CREATENODEDIALOGNMT_NONE, 
- ID_CREATENODEDIALOGNODEID, ID_CREATENODEDIALOGPROFILE, 
- ID_CREATENODEDIALOGSAVECONFIG, ID_CREATENODEDIALOGSTATICTEXT1, 
- ID_CREATENODEDIALOGSTATICTEXT2, ID_CREATENODEDIALOGSTATICTEXT3, 
- ID_CREATENODEDIALOGSTATICTEXT4, ID_CREATENODEDIALOGSTATICTEXT5, 
+[ID_CREATENODEDIALOG, ID_CREATENODEDIALOGEMERGENCY,
+ ID_CREATENODEDIALOGGENSYNC, ID_CREATENODEDIALOGSPACER,
+ ID_CREATENODEDIALOGNAME, ID_CREATENODEDIALOGNMT_HEARTBEAT,
+ ID_CREATENODEDIALOGNMT_NODEGUARDING, ID_CREATENODEDIALOGNMT_NONE,
+ ID_CREATENODEDIALOGNODEID, ID_CREATENODEDIALOGPROFILE,
+ ID_CREATENODEDIALOGSAVECONFIG, ID_CREATENODEDIALOGSTATICTEXT1,
+ ID_CREATENODEDIALOGSTATICTEXT2, ID_CREATENODEDIALOGSTATICTEXT3,
+ ID_CREATENODEDIALOGSTATICTEXT4, ID_CREATENODEDIALOGSTATICTEXT5,
  ID_CREATENODEDIALOGSTATICTEXT6, ID_CREATENODEDIALOGSTATICTEXT7,
  ID_CREATENODEDIALOGSTOREEDS, ID_CREATENODEDIALOGDESCRIPTION,
- ID_CREATENODEDIALOGTYPE, 
+ ID_CREATENODEDIALOGTYPE,
 ] = [wx.NewId() for _init_ctrls in range(21)]
 
 class CreateNodeDialog(wx.Dialog):
@@ -816,11 +816,11 @@ class CreateNodeDialog(wx.Dialog):
 
     def _init_coll_MainSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
-    
+
     def _init_coll_TopBoxSizer_Items(self, parent):
         parent.AddSizer(self.LeftBoxSizer, 1, border=10, flag=wx.GROW|wx.RIGHT)
         parent.AddSizer(self.RightGridSizer, 1, border=10, flag=wx.GROW|wx.LEFT)
-    
+
     def _init_coll_LeftBoxSizer_Items(self, parent):
         parent.AddWindow(self.staticText1, 0, border=5, flag=wx.GROW|wx.BOTTOM)
         parent.AddWindow(self.Type, 0, border=10, flag=wx.GROW|wx.BOTTOM)
@@ -845,10 +845,10 @@ class CreateNodeDialog(wx.Dialog):
         parent.AddWindow(self.NMT_None, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.NMT_NodeGuarding, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.NMT_Heartbeat, 0, border=0, flag=wx.GROW)
-        
+
     def _init_coll_RightTopGridSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
-        
+
     def _init_coll_RightBottomGridSizer_Items(self, parent):
         parent.AddWindow(self.staticText6, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.DS302, 0, border=0, flag=wx.GROW)
@@ -856,7 +856,7 @@ class CreateNodeDialog(wx.Dialog):
         parent.AddWindow(self.Emergency, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.SaveConfig, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.StoreEDS, 0, border=0, flag=wx.GROW)
-        
+
     def _init_coll_RightBottomGridSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
 
@@ -868,7 +868,7 @@ class CreateNodeDialog(wx.Dialog):
         self.RightGridSizer = wx.FlexGridSizer(cols=1, hgap=0, rows=3, vgap=5)
         self.RightTopGridSizer = wx.FlexGridSizer(cols=1, hgap=0, rows=4, vgap=0)
         self.RightBottomGridSizer = wx.FlexGridSizer(cols=1, hgap=0, rows=6, vgap=0)
-        
+
         self._init_coll_flexGridSizer1_Items(self.flexGridSizer1)
         self._init_coll_flexGridSizer1_Growables(self.flexGridSizer1)
         self._init_coll_MainSizer_Items(self.MainSizer)
@@ -881,7 +881,7 @@ class CreateNodeDialog(wx.Dialog):
         self._init_coll_RightTopGridSizer_Growables(self.RightTopGridSizer)
         self._init_coll_RightBottomGridSizer_Items(self.RightBottomGridSizer)
         self._init_coll_RightBottomGridSizer_Growables(self.RightBottomGridSizer)
-        
+
         self.SetSizer(self.flexGridSizer1)
 
     def _init_ctrls(self, prnt, buttons):
@@ -912,11 +912,11 @@ class CreateNodeDialog(wx.Dialog):
               size=wx.Size(0, 28), style=wx.CB_READONLY)
 
         self.NodeName = wx.TextCtrl(id=ID_CREATENODEDIALOGNAME, name='NodeName',
-              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24), 
+              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24),
               style=0, value='')
 
         self.NodeID = wx.TextCtrl(id=ID_CREATENODEDIALOGNODEID, name='NodeID',
-              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24), 
+              parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24),
               style=wx.TE_RIGHT, value='')
 
         self.Profile = wx.ComboBox(choices=[], id=ID_CREATENODEDIALOGPROFILE,
@@ -935,7 +935,7 @@ class CreateNodeDialog(wx.Dialog):
         self.NMT_None.SetValue(True)
 
         self.NMT_NodeGuarding = wx.RadioButton(id=ID_CREATENODEDIALOGNMT_NODEGUARDING,
-              label=_('Node Guarding'), name='NMT_NodeGuarding', parent=self, 
+              label=_('Node Guarding'), name='NMT_NodeGuarding', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 24), style=0)
         self.NMT_NodeGuarding.SetValue(False)
 
@@ -965,7 +965,7 @@ class CreateNodeDialog(wx.Dialog):
         self.Emergency.SetValue(False)
 
         self.SaveConfig = wx.CheckBox(id=ID_CREATENODEDIALOGSAVECONFIG,
-              label=_('Save Configuration'), name='SaveConfig', parent=self, 
+              label=_('Save Configuration'), name='SaveConfig', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 24), style=0)
         self.SaveConfig.SetValue(False)
         self.SaveConfig.Enable(False)
@@ -980,8 +980,8 @@ class CreateNodeDialog(wx.Dialog):
               label=_('Description:'), name='staticText7', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
-        self.Description = wx.TextCtrl(id=ID_CREATENODEDIALOGDESCRIPTION, 
-              name='Description', parent=self, pos=wx.Point(0, 0), 
+        self.Description = wx.TextCtrl(id=ID_CREATENODEDIALOGDESCRIPTION,
+              name='Description', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 24), style=0, value='')
 
         self.Spacer = wx.Panel(id=ID_CREATENODEDIALOGSPACER,
@@ -990,15 +990,15 @@ class CreateNodeDialog(wx.Dialog):
 
         self.ButtonSizer = self.CreateButtonSizer(buttons)
         self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.ButtonSizer.GetAffirmativeButton().GetId())
-        
+
         self._init_sizers()
 
     def __init__(self, parent,buttons=wx.OK|wx.CANCEL):
         self._init_ctrls(parent,buttons)
-        
+
         self.staticText3.Hide()
         self.NodeID.Hide()
-        
+
         self.NodeID.SetValue("0x00")
         for node_type in GetNodeTypes():
             self.Type.Append(_(node_type))
@@ -1017,7 +1017,7 @@ class CreateNodeDialog(wx.Dialog):
         self.Profile.Append(_("Other"))
         self.Profile.SetStringSelection(_("None"))
         self.NodeName.SetFocus()
-        
+
     def OnOK(self, event):
         name = self.NodeName.GetValue()
         message = ""
@@ -1063,7 +1063,7 @@ class CreateNodeDialog(wx.Dialog):
         elif self.NMT_Heartbeat.GetValue():
             return "Heartbeat"
         return None
-    
+
     def GetOptions(self):
         options = []
         if self.DS302.GetValue():
@@ -1099,10 +1099,10 @@ class CreateNodeDialog(wx.Dialog):
 #                            ADD Slave to NodeList Dialog
 #-------------------------------------------------------------------------------
 
-[ID_ADDSLAVEDIALOG, ID_ADDSLAVEDIALOGSLAVENAME, 
- ID_ADDSLAVEDIALOGSLAVENODEID, ID_ADDSLAVEDIALOGEDSFILE, 
- ID_ADDSLAVEDIALOGIMPORTEDS, ID_ADDSLAVEDIALOGSTATICTEXT1, 
- ID_ADDSLAVEDIALOGSTATICTEXT2, ID_ADDSLAVEDIALOGSTATICTEXT3, 
+[ID_ADDSLAVEDIALOG, ID_ADDSLAVEDIALOGSLAVENAME,
+ ID_ADDSLAVEDIALOGSLAVENODEID, ID_ADDSLAVEDIALOGEDSFILE,
+ ID_ADDSLAVEDIALOGIMPORTEDS, ID_ADDSLAVEDIALOGSTATICTEXT1,
+ ID_ADDSLAVEDIALOGSTATICTEXT2, ID_ADDSLAVEDIALOGSTATICTEXT3,
 ] = [wx.NewId() for _init_ctrls in range(8)]
 
 class AddSlaveDialog(wx.Dialog):
@@ -1134,13 +1134,13 @@ class AddSlaveDialog(wx.Dialog):
         self.flexGridSizer1 = wx.FlexGridSizer(cols=1, hgap=0, rows=2, vgap=10)
         self.MainSizer = wx.BoxSizer(wx.VERTICAL)
         self.BottomSizer = wx.FlexGridSizer(cols=2, hgap=5, rows=1, vgap=0)
-        
+
         self._init_coll_flexGridSizer1_Items(self.flexGridSizer1)
         self._init_coll_flexGridSizer1_Growables(self.flexGridSizer1)
         self._init_coll_MainSizer_Items(self.MainSizer)
         self._init_coll_BottomSizer_Items(self.BottomSizer)
         self._init_coll_BottomSizer_Growables(self.BottomSizer)
-        
+
         self.SetSizer(self.flexGridSizer1)
 
     def _init_ctrls(self, prnt):
@@ -1155,7 +1155,7 @@ class AddSlaveDialog(wx.Dialog):
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.SlaveName = wx.TextCtrl(id=ID_ADDSLAVEDIALOGSLAVENAME,
-              name='SlaveName', parent=self, pos=wx.Point(0, 0), 
+              name='SlaveName', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 24), style=0)
 
         self.staticText2 = wx.StaticText(id=ID_ADDSLAVEDIALOGSTATICTEXT2,
@@ -1163,7 +1163,7 @@ class AddSlaveDialog(wx.Dialog):
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.SlaveNodeID = wx.TextCtrl(id=ID_ADDSLAVEDIALOGSLAVENODEID,
-              name='SlaveName', parent=self, pos=wx.Point(0, 0), 
+              name='SlaveName', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 24), style=wx.ALIGN_RIGHT)
 
         self.staticText3 = wx.StaticText(id=ID_ADDSLAVEDIALOGSTATICTEXT3,
@@ -1173,23 +1173,23 @@ class AddSlaveDialog(wx.Dialog):
         self.EDSFile = wx.ComboBox(id=ID_ADDSLAVEDIALOGEDSFILE,
               name='EDSFile', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 28), style=wx.CB_READONLY)
-        
+
         self.ImportEDS = wx.Button(id=ID_ADDSLAVEDIALOGIMPORTEDS, label=_('Import EDS'),
               name='ImportEDS', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(100, 32), style=0)
         self.ImportEDS.Bind(wx.EVT_BUTTON, self.OnImportEDSButton,
               id=ID_ADDSLAVEDIALOGIMPORTEDS)
-        
+
         self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL|wx.CENTRE)
         self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.ButtonSizer.GetAffirmativeButton().GetId())
-    
+
         self._init_sizers()
 
     def __init__(self, parent):
         self._init_ctrls(parent)
-        
+
         self.SlaveNodeID.SetValue("0x00")
-            
+
     def OnOK(self, event):
         error = []
         if self.SlaveName.GetValue() == "":
@@ -1206,7 +1206,7 @@ class AddSlaveDialog(wx.Dialog):
                 elif i == len(error) - 1:
                     text += _(" and %s")%item
                 else:
-                    text += _(", %s")%item 
+                    text += _(", %s")%item
             message = wx.MessageDialog(self, _("Form isn't complete. %s must be filled!")%text, _("Error"), wx.OK|wx.ICON_ERROR)
             message.ShowModal()
             message.Destroy()
@@ -1266,11 +1266,11 @@ class AddSlaveDialog(wx.Dialog):
             self.EDSFile.Append(option)
         if self.EDSFile.FindString(selection) != wx.NOT_FOUND:
             self.EDSFile.SetStringSelection(selection)
-    
+
     def SetNodeList(self, nodelist):
         self.NodeList = nodelist
         self.RefreshEDSFile()
-    
+
     def GetValues(self):
         values = {}
         values["slaveName"] = self.SlaveName.GetValue()
@@ -1291,7 +1291,7 @@ def DCFEntryTableColnames():
     return [_("Index"), _("Subindex"), _("Size"), _("Value")]
 
 class DCFEntryValuesTable(wx.grid.PyGridTableBase):
-    
+
     """
     A custom wxGrid Table using user supplied data
     """
@@ -1306,10 +1306,10 @@ class DCFEntryValuesTable(wx.grid.PyGridTableBase):
         # see if the table has changed size
         self._rows = self.GetNumberRows()
         self._cols = self.GetNumberCols()
-    
+
     def GetNumberCols(self):
         return len(self.colnames)
-        
+
     def GetNumberRows(self):
         return len(self.data)
 
@@ -1325,18 +1325,18 @@ class DCFEntryValuesTable(wx.grid.PyGridTableBase):
     def GetValue(self, row, col):
         if row < self.GetNumberRows():
             return str(self.data[row].get(self.GetColLabelValue(col, False), ""))
-            
+
     def GetEditor(self, row, col):
         if row < self.GetNumberRows():
             return self.editors[row].get(self.GetColLabelValue(col, False), "")
-    
+
     def GetValueByName(self, row, colname):
         return self.data[row].get(colname)
 
     def SetValue(self, row, col, value):
         if col < len(self.colnames):
             self.data[row][self.GetColLabelValue(col, False)] = value
-        
+
     def ResetView(self, grid):
         """
         (wx.grid.Grid) -> Reset the grid view.   Call this to
@@ -1379,21 +1379,21 @@ class DCFEntryValuesTable(wx.grid.PyGridTableBase):
 
         Otherwise default to the default renderer.
         """
-        
+
         for row in range(self.GetNumberRows()):
             for col in range(self.GetNumberCols()):
                 editor = wx.grid.GridCellTextEditor()
                 renderer = wx.grid.GridCellStringRenderer()
-                
+
                 grid.SetReadOnly(row, col, self.Parent.Editable)
                 grid.SetCellEditor(row, col, editor)
                 grid.SetCellRenderer(row, col, renderer)
-                
+
                 grid.SetCellBackgroundColour(row, col, wx.WHITE)
-    
+
     def SetData(self, data):
         self.data = data
-    
+
     def AppendRow(self, row_content):
         self.data.append(row_content)
 
@@ -1401,45 +1401,45 @@ class DCFEntryValuesTable(wx.grid.PyGridTableBase):
         self.data = []
         self.editors = []
 
-[ID_DCFENTRYVALUESDIALOG, ID_DCFENTRYVALUESDIALOGVALUESGRID, 
- ID_DCFENTRYVALUESDIALOGADDBUTTON, ID_DCFENTRYVALUESDIALOGDELETEBUTTON, 
- ID_DCFENTRYVALUESDIALOGUPBUTTON, ID_DCFENTRYVALUESDIALOGDOWNBUTTON, 
- ID_VARIABLEEDITORPANELSTATICTEXT1, 
+[ID_DCFENTRYVALUESDIALOG, ID_DCFENTRYVALUESDIALOGVALUESGRID,
+ ID_DCFENTRYVALUESDIALOGADDBUTTON, ID_DCFENTRYVALUESDIALOGDELETEBUTTON,
+ ID_DCFENTRYVALUESDIALOGUPBUTTON, ID_DCFENTRYVALUESDIALOGDOWNBUTTON,
+ ID_VARIABLEEDITORPANELSTATICTEXT1,
 ] = [wx.NewId() for _init_ctrls in range(7)]
 
 class DCFEntryValuesDialog(wx.Dialog):
-    
+
     if wx.VERSION < (2, 6, 0):
         def Bind(self, event, function, id = None):
             if id is not None:
                 event(self, id, function)
             else:
                 event(self, function)
-    
+
     def _init_coll_MainSizer_Items(self, parent):
         parent.AddWindow(self.staticText1, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
         parent.AddWindow(self.ValuesGrid, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
         parent.AddSizer(self.ButtonPanelSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.LEFT|wx.RIGHT)
         parent.AddSizer(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
-    
+
     def _init_coll_MainSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
         parent.AddGrowableRow(1)
-    
+
     def _init_coll_ButtonPanelSizer_Items(self, parent):
         parent.AddWindow(self.UpButton, 0, border=5, flag=wx.ALL)
         parent.AddWindow(self.AddButton, 0, border=5, flag=wx.ALL)
         parent.AddWindow(self.DownButton, 0, border=5, flag=wx.ALL)
         parent.AddWindow(self.DeleteButton, 0, border=5, flag=wx.ALL)
-        
+
     def _init_sizers(self):
         self.MainSizer = wx.FlexGridSizer(cols=1, hgap=0, rows=3, vgap=0)
         self.ButtonPanelSizer = wx.BoxSizer(wx.HORIZONTAL)
-        
+
         self._init_coll_MainSizer_Items(self.MainSizer)
         self._init_coll_MainSizer_Growables(self.MainSizer)
         self._init_coll_ButtonPanelSizer_Items(self.ButtonPanelSizer)
-        
+
         self.SetSizer(self.MainSizer)
 
     def _init_ctrls(self, prnt):
@@ -1454,7 +1454,7 @@ class DCFEntryValuesDialog(wx.Dialog):
               pos=wx.Point(0, 0), size=wx.Size(95, 17), style=0)
 
         self.ValuesGrid = wx.grid.Grid(id=ID_DCFENTRYVALUESDIALOGVALUESGRID,
-              name='ValuesGrid', parent=self, pos=wx.Point(0, 0), 
+              name='ValuesGrid', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 150), style=wx.VSCROLL)
         self.ValuesGrid.SetFont(wx.Font(12, 77, wx.NORMAL, wx.NORMAL, False,
               'Sans'))
@@ -1469,7 +1469,7 @@ class DCFEntryValuesDialog(wx.Dialog):
         else:
             wx.grid.EVT_GRID_CELL_CHANGE(self.ValuesGrid, self.OnValuesGridCellChange)
             wx.grid.EVT_GRID_SELECT_CELL(self.ValuesGrid, self.OnValuesGridSelectCell)
-        
+
         self.AddButton = wx.Button(id=ID_DCFENTRYVALUESDIALOGADDBUTTON, label=_('Add'),
               name='AddButton', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(72, 32), style=0)
@@ -1491,19 +1491,19 @@ class DCFEntryValuesDialog(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.OnDownButton, id=ID_DCFENTRYVALUESDIALOGDOWNBUTTON)
 
         self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL|wx.CENTRE)
-        
+
         self._init_sizers()
 
     def __init__(self, parent, editable=True):
         self._init_ctrls(parent)
-        
+
         self.Values = []
         self.DefaultValue = {"Index" : 0, "Subindex" : 0, "Size" : 1, "Value" : 0}
         self.Editable = editable
-        
+
         self.Table = DCFEntryValuesTable(self, [], DCFEntryTableColnames())
         self.ValuesGrid.SetTable(self.Table)
-        
+
     def OnValuesGridCellChange(self, event):
         row, col = event.GetRow(), event.GetCol()
         colname = self.Table.GetColLabelValue(col)
@@ -1516,11 +1516,11 @@ class DCFEntryValuesDialog(wx.Dialog):
             message.Destroy()
         wx.CallAfter(self.RefreshValues)
         event.Skip()
-    
+
     def OnValuesGridSelectCell(self, event):
         wx.CallAfter(self.RefreshButtons)
         event.Skip()
-    
+
     def RefreshButtons(self):
         row = self.ValuesGrid.GetGridCursorRow()
         length = len(self.Table.data)
@@ -1528,7 +1528,7 @@ class DCFEntryValuesDialog(wx.Dialog):
         self.DeleteButton.Enable(self.Editable and length > 0)
         self.UpButton.Enable(self.Editable and row > 0)
         self.DownButton.Enable(self.Editable and row < length - 1)
-    
+
     def OnAddButton(self, event):
         new_row = self.DefaultValue.copy()
         self.Values.append(new_row)
@@ -1575,7 +1575,7 @@ class DCFEntryValuesDialog(wx.Dialog):
                 current += 7 + size
                 self.Values.append(value)
         self.RefreshValues()
-    
+
     def GetValues(self):
         if len(self.Values) > 0:
             value = LE_to_BE(len(self.Values), 4)
@@ -1586,7 +1586,7 @@ class DCFEntryValuesDialog(wx.Dialog):
                 value += LE_to_BE(row["Value"], row["Size"])
             return value
         return ""
-    
+
     def RefreshValues(self):
         if len(self.Table.data) > 0:
             self.ValuesGrid.SetGridCursor(0, 0)
@@ -1601,4 +1601,4 @@ class DCFEntryValuesDialog(wx.Dialog):
         self.Table.SetData(data)
         self.Table.ResetView(self.ValuesGrid)
         self.RefreshButtons()
-        
+

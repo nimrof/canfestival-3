@@ -8,18 +8,18 @@ from commondialogs import *
 ] = [wx.NewId() for _init_ctrls in range(1)]
 
 class NetworkEditorTemplate(NodeEditorTemplate):
-    
+
     def _init_ctrls(self, prnt):
         self.NetworkNodes = wx.Notebook(id=ID_NETWORKEDITNETWORKNODES,
               name='NetworkNodes', parent=prnt, pos=wx.Point(0, 0),
               size=wx.Size(0, 0), style=wx.NB_LEFT)
         self.NetworkNodes.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED,
               self.OnNodeSelectedChanged, id=ID_NETWORKEDITNETWORKNODES)
-    
+
     def __init__(self, manager, frame, mode_solo):
         self.NodeList = manager
         NodeEditorTemplate.__init__(self, self.NodeList.GetManager(), frame, mode_solo)
-    
+
     def GetCurrentNodeId(self):
         selected = self.NetworkNodes.GetSelection()
         # At init selected = -1
@@ -28,7 +28,7 @@ class NetworkEditorTemplate(NodeEditorTemplate):
             return window.GetIndex()
         else:
             return 0
-    
+
     def RefreshCurrentIndexList(self):
         selected = self.NetworkNodes.GetSelection()
         if selected == 0:
@@ -48,7 +48,7 @@ class NetworkEditorTemplate(NodeEditorTemplate):
                 new_editingpanel = EditingPanel(self.NetworkNodes, self, self.NodeList, False)
                 new_editingpanel.SetIndex(idx)
                 self.NetworkNodes.AddPage(new_editingpanel, "")
-    
+
     def OnNodeSelectedChanged(self, event):
         if not self.Closing:
             selected = event.GetSelection()
@@ -96,7 +96,7 @@ class NetworkEditorTemplate(NodeEditorTemplate):
             else:
                 self.ShowErrorMessage(result)
         dialog.Destroy()
-        
+
     def OnRemoveSlaveMenu(self, event):
         slavenames = self.NodeList.GetSlaveNames()
         slaveids = self.NodeList.GetSlaveIDs()

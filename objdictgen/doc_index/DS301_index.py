@@ -49,4 +49,4 @@ Please read can festival documentation to know how to obtain one.""")
             return _("Check if Acrobat Reader is correctly installed on your computer")
         else:
             return _("Check if xpdf is correctly installed on your computer")
-        
+

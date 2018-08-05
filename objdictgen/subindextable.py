@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#This file is part of CanFestival, a library implementing CanOpen Stack. 
+#This file is part of CanFestival, a library implementing CanOpen Stack.
 #
 #Copyright (C): Edouard TISSERANT, Francis DUPIN and Laurent BESSARD
 #
@@ -53,11 +53,11 @@ def GetOptionList():
 OptionList = ",".join(map(_, GetOptionList()))
 OPTION_LIST_DICT = dict([(_(option), option) for option in GetOptionList()])
 
-[USER_TYPE, SDO_SERVER, SDO_CLIENT, 
+[USER_TYPE, SDO_SERVER, SDO_CLIENT,
  PDO_TRANSMIT, PDO_RECEIVE, MAP_VARIABLE] = range(6)
 
 INDEXCHOICE_OPTIONS = {
-    USER_TYPE: (_("User Type"), 0, "AddUserType"), 
+    USER_TYPE: (_("User Type"), 0, "AddUserType"),
     SDO_SERVER: (_("SDO Server"), 1, "AddSDOServerToCurrent"),
     SDO_CLIENT: (_("SDO Client"), 1, "AddSDOClientToCurrent"),
     PDO_RECEIVE: (_("PDO Receive"), 1, "AddPDOReceiveToCurrent"),
@@ -122,7 +122,7 @@ IECTypeConversion = {
 SizeConversion = {1 : "X", 8 : "B", 16 : "W", 24 : "D", 32 : "D", 40 : "L", 48 : "L", 56 : "L", 64 : "L"}
 
 class SubindexTable(wx.grid.PyGridTableBase):
-    
+
     """
     A custom wxGrid Table using user supplied data
     """
@@ -140,16 +140,16 @@ class SubindexTable(wx.grid.PyGridTableBase):
         # see if the table has changed size
         self._rows = self.GetNumberRows()
         self._cols = self.GetNumberCols()
-    
+
     def Disable(self):
         self.Editable = False
-        
+
     def Enable(self):
         self.Editable = True
-    
+
     def GetNumberCols(self):
         return len(self.colnames)
-        
+
     def GetNumberRows(self):
         return len(self.data)
 
@@ -166,16 +166,16 @@ class SubindexTable(wx.grid.PyGridTableBase):
         if row < self.GetNumberRows():
             colname = self.GetColLabelValue(col, False)
             value = unicode(self.data[row].get(colname, ""))
-            if translate and (colname == "access" or 
+            if translate and (colname == "access" or
                               self.editors[row][colname] in ["bool", "option"] or
                               self.editors[row][colname] == "map" and value == "None"):
                 value = _(value)
             return value
-            
+
     def GetEditor(self, row, col):
         if row < self.GetNumberRows():
             return self.editors[row].get(self.GetColLabelValue(col, False), "")
-    
+
     def GetValueByName(self, row, colname):
         return self.data[row].get(colname)
 
@@ -191,7 +191,7 @@ class SubindexTable(wx.grid.PyGridTableBase):
             elif self.editors[row][colname] == "map" and value == _("None"):
                 value = "None"
             self.data[row][colname] = value
-        
+
     def ResetView(self, grid):
         """
         (wx.grid.Grid) -> Reset the grid view.   Call this to
@@ -234,14 +234,14 @@ class SubindexTable(wx.grid.PyGridTableBase):
 
         Otherwise default to the default renderer.
         """
-        
+
         for col in range(self.GetNumberCols()):
             attr = wx.grid.GridCellAttr()
             attr.SetAlignment(ColAlignements[col], wx.ALIGN_CENTRE)
             grid.SetColAttr(col, attr)
             grid.SetColMinimalWidth(col, ColSizes[col])
             grid.AutoSizeColumn(col, False)
-        
+
         typelist = None
         maplist = None
         for row in range(self.GetNumberRows()):
@@ -254,7 +254,7 @@ class SubindexTable(wx.grid.PyGridTableBase):
             for col in range(self.GetNumberCols()):
                 editor = None
                 renderer = None
-                
+
                 colname = self.GetColLabelValue(col, False)
                 editortype = editors[colname]
                 if editortype == "dcf":
@@ -266,7 +266,7 @@ class SubindexTable(wx.grid.PyGridTableBase):
                         editor = wx.grid.GridCellTextEditor()
                         renderer = wx.grid.GridCellStringRenderer()
                         if colname == "value" and "length" in editors:
-                            editor.SetParameters(editors["length"]) 
+                            editor.SetParameters(editors["length"])
                     elif editortype == "number":
                         editor = wx.grid.GridCellNumberEditor()
                         renderer = wx.grid.GridCellNumberRenderer()
@@ -305,24 +305,24 @@ class SubindexTable(wx.grid.PyGridTableBase):
                         renderer = wx.grid.GridCellStringRenderer()
                 else:
                     grid.SetReadOnly(row, col, True)
-                    
+
                 grid.SetCellEditor(row, col, editor)
                 grid.SetCellRenderer(row, col, renderer)
-                
+
                 grid.SetCellBackgroundColour(row, col, wx.WHITE)
-    
+
     def SetData(self, data):
         self.data = data
-        
+
     def SetEditors(self, editors):
         self.editors = editors
-    
+
     def GetCurrentIndex(self):
         return self.CurrentIndex
-    
+
     def SetCurrentIndex(self, index):
         self.CurrentIndex = index
-    
+
     def AppendRow(self, row_content):
         self.data.append(row_content)
 
@@ -330,18 +330,18 @@ class SubindexTable(wx.grid.PyGridTableBase):
         self.data = []
         self.editors = []
 
-[ID_EDITINGPANEL, ID_EDITINGPANELADDBUTTON, ID_EDITINGPANELINDEXCHOICE, 
- ID_EDITINGPANELINDEXLIST, ID_EDITINGPANELINDEXLISTPANEL, ID_EDITINGPANELPARTLIST, 
+[ID_EDITINGPANEL, ID_EDITINGPANELADDBUTTON, ID_EDITINGPANELINDEXCHOICE,
+ ID_EDITINGPANELINDEXLIST, ID_EDITINGPANELINDEXLISTPANEL, ID_EDITINGPANELPARTLIST,
  ID_EDITINGPANELSECONDSPLITTER, ID_EDITINGPANELSUBINDEXGRID,
  ID_EDITINGPANELSUBINDEXGRIDPANEL, ID_EDITINGPANELCALLBACKCHECK,
 ] = [wx.NewId() for _init_ctrls in range(10)]
 
-[ID_EDITINGPANELINDEXLISTMENUITEMS0, ID_EDITINGPANELINDEXLISTMENUITEMS1, 
- ID_EDITINGPANELINDEXLISTMENUITEMS2, 
+[ID_EDITINGPANELINDEXLISTMENUITEMS0, ID_EDITINGPANELINDEXLISTMENUITEMS1,
+ ID_EDITINGPANELINDEXLISTMENUITEMS2,
 ] = [wx.NewId() for _init_coll_IndexListMenu_Items in range(3)]
 
-[ID_EDITINGPANELMENU1ITEMS0, ID_EDITINGPANELMENU1ITEMS1, 
- ID_EDITINGPANELMENU1ITEMS3, ID_EDITINGPANELMENU1ITEMS4, 
+[ID_EDITINGPANELMENU1ITEMS0, ID_EDITINGPANELMENU1ITEMS1,
+ ID_EDITINGPANELMENU1ITEMS3, ID_EDITINGPANELMENU1ITEMS4,
 ] = [wx.NewId() for _init_coll_SubindexGridMenu_Items in range(4)]
 
 class EditingPanel(wx.SplitterWindow):
@@ -424,13 +424,13 @@ class EditingPanel(wx.SplitterWindow):
 
         self.SubindexGridPanel.SetSizer(self.SubindexGridSizer)
         self.IndexListPanel.SetSizer(self.IndexListSizer)
-        
+
     def _init_ctrls(self, prnt):
         wx.SplitterWindow.__init__(self, id=ID_EDITINGPANEL,
               name='MainSplitter', parent=prnt, point=wx.Point(0, 0),
               size=wx.Size(-1, -1), style=wx.SP_3D)
         self._init_utils()
-        
+
         self.PartList = wx.ListBox(choices=[], id=ID_EDITINGPANELPARTLIST,
               name='PartList', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(-1, -1), style=0)
@@ -438,21 +438,21 @@ class EditingPanel(wx.SplitterWindow):
               id=ID_EDITINGPANELPARTLIST)
 
         self.SecondSplitter = wx.SplitterWindow(id=ID_EDITINGPANELSECONDSPLITTER,
-              name='SecondSplitter', parent=self, point=wx.Point(0, 0), 
+              name='SecondSplitter', parent=self, point=wx.Point(0, 0),
               size=wx.Size(-1, -1), style=wx.SP_3D)
         self.SplitHorizontally(self.PartList, self.SecondSplitter, 110)
         self.SetMinimumPaneSize(1)
-        
+
         self.SubindexGridPanel = wx.Panel(id=ID_EDITINGPANELSUBINDEXGRIDPANEL,
-              name='SubindexGridPanel', parent=self.SecondSplitter, 
+              name='SubindexGridPanel', parent=self.SecondSplitter,
               pos=wx.Point(0, 0), size=wx.Size(-1, -1), style=wx.TAB_TRAVERSAL)
 
         self.IndexListPanel = wx.Panel(id=ID_EDITINGPANELINDEXLISTPANEL,
-              name='IndexListPanel', parent=self.SecondSplitter, 
+              name='IndexListPanel', parent=self.SecondSplitter,
               pos=wx.Point(0, 0), size=wx.Size(-1, -1), style=wx.TAB_TRAVERSAL)
         self.SecondSplitter.SplitVertically(self.IndexListPanel, self.SubindexGridPanel, 280)
         self.SecondSplitter.SetMinimumPaneSize(1)
-        
+
         self.SubindexGrid = wx.grid.Grid(id=ID_EDITINGPANELSUBINDEXGRID,
               name='SubindexGrid', parent=self.SubindexGridPanel, pos=wx.Point(0,
               0), size=wx.Size(-1, -1), style=0)
@@ -466,9 +466,9 @@ class EditingPanel(wx.SplitterWindow):
               self.OnSubindexGridRightClick)
         self.SubindexGrid.Bind(wx.grid.EVT_GRID_SELECT_CELL,
               self.OnSubindexGridSelectCell)
-        self.SubindexGrid.Bind(wx.grid.EVT_GRID_CELL_LEFT_CLICK, 
+        self.SubindexGrid.Bind(wx.grid.EVT_GRID_CELL_LEFT_CLICK,
               self.OnSubindexGridCellLeftClick)
-        self.SubindexGrid.Bind(wx.grid.EVT_GRID_EDITOR_SHOWN, 
+        self.SubindexGrid.Bind(wx.grid.EVT_GRID_EDITOR_SHOWN,
               self.OnSubindexGridEditorShown)
 
         self.CallbackCheck = wx.CheckBox(id=ID_EDITINGPANELCALLBACKCHECK,
@@ -506,7 +506,7 @@ class EditingPanel(wx.SplitterWindow):
         self.ChoiceIndex = []
         self.FirstCall = False
         self.Index = None
-        
+
         for values in DictionaryOrganisation:
             text = "   0x%04X-0x%04X      %s"%(values["minIndex"], values["maxIndex"], values["name"])
             self.PartList.Append(text)
@@ -521,13 +521,13 @@ class EditingPanel(wx.SplitterWindow):
             self.IndexChoice.Disable()
             self.CallbackCheck.Disable()
             self.Table.Disable()
-            
+
         wx.CallAfter(self.SetSashPosition, 110)
         wx.CallAfter(self.SecondSplitter.SetSashPosition, 280)
 
     def GetIndex(self):
         return self.Index
-    
+
     def SetIndex(self, index):
         self.Index = index
 
@@ -556,9 +556,9 @@ class EditingPanel(wx.SplitterWindow):
                             var_name = "%s_%04x_%02x" % (self.Manager.GetCurrentNodeName(), index, subindex)
                             size = typeinfos["size"]
                             data = wx.TextDataObject(str(
-                                ("%s%s.%d.%d"%(SizeConversion[size], bus_id, index, subindex), 
-                                 "location", 
-                                 IECTypeConversion.get(typeinfos["name"]), 
+                                ("%s%s.%d.%d"%(SizeConversion[size], bus_id, index, subindex),
+                                 "location",
+                                 IECTypeConversion.get(typeinfos["name"]),
                                  var_name, "")))
                             dragSource = wx.DropSource(self.SubindexGrid)
                             dragSource.SetData(data)
@@ -579,9 +579,9 @@ class EditingPanel(wx.SplitterWindow):
                             var_name = "%s_%04x_%02x" % (self.Manager.GetSlaveName(node_id), index, subindex)
                             size = typeinfos["size"]
                             data = wx.TextDataObject(str(
-                                ("%s%s.%d.%d.%d"%(SizeConversion[size], bus_id, node_id, index, subindex), 
-                                 "location", 
-                                 IECTypeConversion.get(typeinfos["name"]), 
+                                ("%s%s.%d.%d.%d"%(SizeConversion[size], bus_id, node_id, index, subindex),
+                                 "location",
+                                 IECTypeConversion.get(typeinfos["name"]),
                                  var_name, "")))
                             dragSource = wx.DropSource(self.SubindexGrid)
                             dragSource.SetData(data)
@@ -699,7 +699,7 @@ class EditingPanel(wx.SplitterWindow):
 #-------------------------------------------------------------------------------
 
     def OnSubindexGridEditorShown(self, event):
-        row, col = event.GetRow(), event.GetCol() 
+        row, col = event.GetRow(), event.GetCol()
         if self.Table.GetEditor(row, col) == "dcf":
             wx.CallAfter(self.ShowDCFEntryDialog, row, col)
             event.Veto()
@@ -832,7 +832,7 @@ class EditingPanel(wx.SplitterWindow):
                             value = int(value, 16)
                         else:
                             value = int(value.encode("hex_codec"), 16)
-                        self.Manager.AddToMasterDCF(node_id, index, subindex, max(1, typeinfos["size"] / 8), value)    
+                        self.Manager.AddToMasterDCF(node_id, index, subindex, max(1, typeinfos["size"] / 8), value)
                         self.ParentWindow.OpenMasterDCFDialog(node_id)
 
     def OpenDCFDialog(self, node_id):
@@ -857,7 +857,7 @@ class EditingPanel(wx.SplitterWindow):
                         self.ParentWindow.RefreshBufferState()
                         self.RefreshIndexList()
                     dialog.Destroy()
-        
+
     def OnModifyIndexMenu(self, event):
         if self.Editable:
             selected = self.IndexList.GetSelection()
@@ -876,7 +876,7 @@ class EditingPanel(wx.SplitterWindow):
                         self.Manager.SetCurrentUserType(index, type, min, max, length)
                         self.ParentWindow.RefreshBufferState()
                         self.RefreshIndexList()
-        
+
     def OnDeleteIndexMenu(self, event):
         if self.Editable:
             selected = self.IndexList.GetSelection()
@@ -886,7 +886,7 @@ class EditingPanel(wx.SplitterWindow):
                     self.Manager.ManageEntriesOfCurrent([],[index])
                     self.ParentWindow.RefreshBufferState()
                     self.RefreshIndexList()
-        
+
     def OnAddSubindexMenu(self, event):
         if self.Editable:
             selected = self.IndexList.GetSelection()
@@ -906,7 +906,7 @@ class EditingPanel(wx.SplitterWindow):
                             message.ShowModal()
                             message.Destroy()
                     dialog.Destroy()
-        
+
     def OnDeleteSubindexMenu(self, event):
         if self.Editable:
             selected = self.IndexList.GetSelection()
@@ -926,7 +926,7 @@ class EditingPanel(wx.SplitterWindow):
                             message.ShowModal()
                             message.Destroy()
                     dialog.Destroy()
-        
+
     def OnDefaultValueSubindexMenu(self, event):
         if self.Editable:
             selected = self.IndexList.GetSelection()
