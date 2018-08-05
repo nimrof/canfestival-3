@@ -578,7 +578,7 @@ class NodeManager:
             self.CurrentNode.RemoveLine(index + 0x200, 0x1BFF)
         else:
             found = False
-            for menu,list in self.CurrentNode.GetSpecificMenu():
+            for _,list in self.CurrentNode.GetSpecificMenu():
                 for i in list:
                     iinfos = self.GetEntryInfos(i)
                     indexes = [i + incr * iinfos["incr"] for incr in xrange(iinfos["nbmax"])] 
@@ -760,7 +760,7 @@ class NodeManager:
 
     def SetCurrentUserType(self, index, type, min, max, length):
         customisabletypes = self.GetCustomisableTypes()
-        values, valuetype = self.GetCustomisedTypeValues(index)
+        _, valuetype = self.GetCustomisedTypeValues(index)
         name, new_valuetype = customisabletypes[type]
         size = self.GetEntryInfos(type)["size"]
         default = self.GetTypeDefaultValue(type)
@@ -887,7 +887,7 @@ class NodeManager:
     def GetSpecificProfileLists(self, mappingdictionary):
         validlist = []
         exclusionlist = []
-        for name, list in self.CurrentNode.GetSpecificMenu():
+        for _, list in self.CurrentNode.GetSpecificMenu():
             exclusionlist.extend(list)
         for index in mappingdictionary.iterkeys():
             if index not in exclusionlist:

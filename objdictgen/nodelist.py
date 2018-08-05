@@ -140,7 +140,7 @@ class NodeList:
             return result
     
     def ImportEDSFile(self, edspath, force = False):
-        dir, file = os.path.split(edspath)
+        _, file = os.path.split(edspath)
         eds_folder = self.GetEDSFolder()
         eds = os.path.join(eds_folder, file)
         if not force and os.path.isfile(eds):

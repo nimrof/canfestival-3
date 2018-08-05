@@ -134,8 +134,6 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
     rangelist = [idx for idx in Node.GetIndexes() if 0 <= idx <= 0x260]
     listIndex = [idx for idx in Node.GetIndexes() if 0x1000 <= idx <= 0xFFFF]
     communicationlist = [idx for idx in Node.GetIndexes() if 0x1000 <= idx <= 0x11FF]
-    sdolist = [idx for idx in Node.GetIndexes() if 0x1200 <= idx <= 0x12FF]
-    pdolist = [idx for idx in Node.GetIndexes() if 0x1400 <= idx <= 0x1BFF]
     variablelist = [idx for idx in Node.GetIndexes() if 0x2000 <= idx <= 0xBFFF]
 
 #-------------------------------------------------------------------------------
@@ -182,7 +180,6 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
     mappedVariableContent = ""
     pointedVariableContent = ""
     strDeclareHeader = ""
-    strDeclareCallback = ""
     indexContents = {}
     indexCallbacks = {}
     for index in listIndex:

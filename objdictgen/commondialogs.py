@@ -529,7 +529,6 @@ class UserTypeDialog(wx.Dialog):
 
     def OnOK(self, event):
         error = []
-        good = True
         message = None
         name = self.Type.GetStringSelection()
         if name != "":
@@ -755,7 +754,7 @@ class NodeInfosDialog(wx.Dialog):
                 message = _("Node name can't be undefined or start with a digit and must be composed of alphanumerical characters or underscore!")
         if message != "":
             try:
-                nodeid = int(self.NodeID.GetValue(), 16)
+                int(self.NodeID.GetValue(), 16)
             except:
                 message = _("Node ID must be integer!")
         if message != "":

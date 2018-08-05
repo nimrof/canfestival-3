@@ -327,7 +327,7 @@ def ParseEDSFile(filepath):
                     # First case, value starts with "$NODEID", then it's a formula
                     if value.upper().startswith("$NODEID"):
                         try:
-                            test = int(value.upper().replace("$NODEID+", ""), 16)
+                            int(value.upper().replace("$NODEID+", ""), 16)
                             computed_value = "\"%s\""%value
                         except:
                             raise SyntaxError, _("\"%s\" is not a valid formula for attribute \"%s\" of section \"[%s]\"")%(value, keyname, section_name)
@@ -434,7 +434,6 @@ def GenerateFileContent(Node, filepath):
     current_time = localtime()
     # Extract node informations
     nodename = Node.GetNodeName()
-    nodeid = Node.GetNodeID()
     nodetype = Node.GetNodeType() 
     description = Node.GetNodeDescription()
     
