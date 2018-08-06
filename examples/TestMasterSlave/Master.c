@@ -28,6 +28,7 @@ extern s_BOARD MasterBoard;
 /*****************************************************************************/
 void TestMaster_heartbeatError(CO_Data* d, UNS8 heartbeatID)
 {
+	(void)d;
 	eprintf("TestMaster_heartbeatError %d\n", heartbeatID);
 }
 
@@ -38,11 +39,10 @@ void TestMaster_heartbeatError(CO_Data* d, UNS8 heartbeatID)
  ********************************************************/
 void TestMaster_initialisation(CO_Data* d)
 {
+	(void)d;
 	UNS32 PDO1_COBID = 0x0182; 
 	UNS32 PDO2_COBID = 0x0282;
 	UNS32 size = sizeof(UNS32); 
-	UNS32 SINC_cicle=0;
-	UNS8 data_type = 0;
 	
 	eprintf("TestMaster_initialisation\n");
 
@@ -151,21 +151,25 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 
 void TestMaster_preOperational(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestMaster_preOperational\n");
 }
 
 void TestMaster_operational(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestMaster_operational\n");
 }
 
 void TestMaster_stopped(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestMaster_stopped\n");
 }
 
 void TestMaster_post_sync(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestMaster_post_sync\n");
 	eprintf("Master: %d %d %d %d %d %d %d %d %d %x %x %d %d\n",
 		MasterMap1,
@@ -185,6 +189,7 @@ void TestMaster_post_sync(CO_Data* d)
 
 void TestMaster_post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg)
 {
+	(void)d;
 	eprintf("Master received EMCY message. Node: %2.2x  ErrorCode: %4.4x  ErrorRegister: %2.2x\n", nodeID, errCode, errReg);
 }
 
@@ -205,6 +210,7 @@ static void CheckSDO(CO_Data* d, UNS8 nodeId)
 static int MasterSyncCount = 0;
 void TestMaster_post_TPDO(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestMaster_post_TPDO MasterSyncCount = %d \n", MasterSyncCount);
 	if(MasterSyncCount % 17 == 0){
 		eprintf("Master : Ask RTR PDO (0x1402)\n");

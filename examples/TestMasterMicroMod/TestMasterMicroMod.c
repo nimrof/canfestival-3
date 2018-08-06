@@ -44,6 +44,7 @@ unsigned int slavenodeid = 0x40;
 /*****************************************************************************/
 void TestMaster_heartbeatError(CO_Data* d, UNS8 heartbeatID)
 {
+	(void)d;
 	eprintf("TestMaster_heartbeatError %d\n", heartbeatID);
 }
 
@@ -54,6 +55,7 @@ void TestMaster_heartbeatError(CO_Data* d, UNS8 heartbeatID)
  ********************************************************/
 void TestMaster_initialisation(CO_Data* d)
 {
+	(void)d;
 	UNS32 PDO1_COBID = 0x0180 + slavenodeid; 
 	UNS32 PDO2_COBID = 0x0200 + slavenodeid;
 	UNS32 size = sizeof(UNS32); 
@@ -315,24 +317,27 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 
 void TestMaster_preOperational(CO_Data* d)
 {
-
+	(void)d;
 	eprintf("TestMaster_preOperational\n");
-	ConfigureSlaveNode(&TestMaster_Data, slavenodeid);
+	ConfigureSlaveNode(&TestMaster_Data, (unsigned char)slavenodeid);
 	
 }
 
 void TestMaster_operational(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestMaster_operational\n");
 }
 
 void TestMaster_stopped(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestMaster_stopped\n");
 }
 
 void TestMaster_post_sync(CO_Data* d)
 {
+	(void)d;
 	DO++;
 	eprintf("MicroMod Digital Out: %2.2x\n",DO);
 	eprintf("MicroMod Digital In (by bit): DI1: %2.2x DI2: %2.2x DI3: %2.2x DI4: %2.2x DI5: %2.2x DI6: %2.2x DI7: %2.2x DI8: %2.2x\n",DI1,DI2,DI3,DI4,DI5,DI6,DI7,DI8);
@@ -340,6 +345,7 @@ void TestMaster_post_sync(CO_Data* d)
 
 void TestMaster_post_TPDO(CO_Data* d)
 {
+	(void)d;
 //	eprintf("TestMaster_post_TPDO\n");	
 }
 
@@ -392,6 +398,8 @@ void help(void)
 /***************************  INIT  *****************************************/
 void InitNodes(CO_Data* d, UNS32 id)
 {
+	(void)d;
+	(void)id;
 	/****************************** INITIALISATION MASTER *******************************/
 	if(MasterBoard.baudrate){
 		/* Defining the node Id */
@@ -405,6 +413,8 @@ void InitNodes(CO_Data* d, UNS32 id)
 /***************************  EXIT  *****************************************/
 void Exit(CO_Data* d, UNS32 id)
 {
+	(void)d;
+	(void)id;
 	if(strcmp(MasterBoard.baudrate, "none")){
 		masterSendNMTstateChange(&TestMaster_Data, 0x02, NMT_Reset_Node);
     

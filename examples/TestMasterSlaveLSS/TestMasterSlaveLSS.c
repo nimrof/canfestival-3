@@ -92,6 +92,8 @@ void help(void)
 /***************************  INIT  *****************************************/
 void InitNodes(CO_Data* d, UNS32 id)
 {
+	(void)d;
+	(void)id;
 	/****************************** INITIALISATION SLAVE_A *******************************/
 	if(strcmp(SlaveBoardA.baudrate, "none")) {
 		/* Set an invalid nodeID */
@@ -125,6 +127,8 @@ void InitNodes(CO_Data* d, UNS32 id)
 /***************************  EXIT  *****************************************/
 void Exit(CO_Data* d, UNS32 id)
 {
+	(void)d;
+	(void)id;
 	if(strcmp(MasterBoard.baudrate, "none")){
 	eprintf("Finishing.\n");
 	masterSendNMTstateChange (&TestMaster_Data, 0x00, NMT_Stop_Node);

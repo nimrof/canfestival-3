@@ -29,6 +29,7 @@ extern s_BOARD MasterBoard;
 /*****************************************************************************/
 void TestMaster_heartbeatError(CO_Data* d, UNS8 heartbeatID)
 {
+	(void)d;
 	eprintf("TestMaster_heartbeatError %d\n", heartbeatID);
 }
 
@@ -39,6 +40,7 @@ void TestMaster_heartbeatError(CO_Data* d, UNS8 heartbeatID)
  ********************************************************/
 void TestMaster_initialisation(CO_Data* d)
 {
+	(void)d;
 	UNS32 PDO1_COBID = 0x0182; 
 	UNS32 PDO2_COBID = 0x0183;
 	UNS32 size = sizeof(UNS32); 
@@ -112,7 +114,6 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 	UNS8 Transmission_Type = 0x01;
 	UNS16 Slave_Prod_Heartbeat_T=1000;//ms
 	UNS32 Master_Cons_Heartbeat_Base=0x05DC; //1500ms
-	UNS32 abortCode;
 	UNS8 res;
 	eprintf("Master : ConfigureSlaveNode %2.2x\n", nodeId);
 
@@ -241,7 +242,6 @@ static void CheckLSSAndContinue(CO_Data* d, UNS8 command)
 			}
    			else{
    				UNS16 Switch_delay=1;
-				UNS8 LSS_mode=LSS_CONFIGURATION_MODE;
 				
 	   			eprintf("Master : unable to activate bit timing. trying again\n");
 				configNetworkNode(d,LSS_CONF_ACT_BIT_TIMING,&Switch_delay,0,CheckLSSAndContinue);
@@ -326,6 +326,7 @@ UNS32 Vendor_ID=0x12345678;
  * */
 static void ConfigureLSSNode(CO_Data* d)
 {
+	(void)d;
 	UNS32 Product_Code=0x90123456;
 	UNS32 Revision_Number=0x78901234;
 	UNS32 Serial_Number=0x56789012;
@@ -436,16 +437,19 @@ void TestMaster_preOperational(CO_Data* d)
 
 void TestMaster_operational(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestMaster_operational\n");
 }
 
 void TestMaster_stopped(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestMaster_stopped\n");
 }
 
 void TestMaster_post_sync(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestMaster_post_sync\n");
 	eprintf("Master: %d %d %d\n",
 		MasterMap1,
@@ -455,11 +459,13 @@ void TestMaster_post_sync(CO_Data* d)
 
 void TestMaster_post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg)
 {
+	(void)d;
 	eprintf("Master received EMCY message. Node: %2.2x  ErrorCode: %4.4x  ErrorRegister: %2.2x\n", nodeID, errCode, errReg);
 }
 
 void TestMaster_post_TPDO(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestMaster_post_TPDO\n");
 }
 

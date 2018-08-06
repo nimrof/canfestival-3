@@ -283,7 +283,7 @@ bool can_uvccm_win32::get_can_data(const char* can_cmd_buf, long& bufsize, Messa
       return false;
       }
 
-   bufsize = buf.tellg();
+   bufsize = (long)buf.tellg();
 
    *m = msg;
    return true;

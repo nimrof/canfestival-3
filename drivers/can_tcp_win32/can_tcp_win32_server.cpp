@@ -54,7 +54,7 @@ unsigned __stdcall Connection(void* a) {
 
   delete s;
 
-  printf("Connection closed (0x%x).\n",s);
+  printf("Connection closed (0x%x).\n",(unsigned int)s);
 
   return 0;
 }

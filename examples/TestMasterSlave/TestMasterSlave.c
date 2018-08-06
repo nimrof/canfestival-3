@@ -45,6 +45,9 @@ void pause(void)
 
 UNS32 OnMasterMap1Update(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
 {
+	(void)d;
+	(void)unsused_indextable;
+	(void)unsused_bSubindex;
 	eprintf("OnMasterMap1Update:%d\n", MasterMap1);
 	return 0;
 }
@@ -92,6 +95,8 @@ void help(void)
 /***************************  INIT  *****************************************/
 void InitNodes(CO_Data* d, UNS32 id)
 {
+	(void)d;
+	(void)id;
 	/****************************** INITIALISATION SLAVE *******************************/
 	if(strcmp(SlaveBoard.baudrate, "none")) {
 		setNodeId(&TestSlave_Data, 0x02);
@@ -116,6 +121,8 @@ void InitNodes(CO_Data* d, UNS32 id)
 /***************************  EXIT  *****************************************/
 void Exit(CO_Data* d, UNS32 id)
 {
+	(void)d;
+	(void)id;
 	if(strcmp(MasterBoard.baudrate, "none")){
 		
 		masterSendNMTstateChange(&TestMaster_Data, 0x02, NMT_Reset_Node);    

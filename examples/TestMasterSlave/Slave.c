@@ -28,31 +28,37 @@ extern s_BOARD SlaveBoard;
 /*****************************************************************************/
 void TestSlave_heartbeatError(CO_Data* d, UNS8 heartbeatID)
 {
+	(void)d;
 	eprintf("TestSlave_heartbeatError %d\n", heartbeatID);
 }
 
 void TestSlave_initialisation(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestSlave_initialisation\n");
 }
 
 void TestSlave_preOperational(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestSlave_preOperational\n");
 }
 
 void TestSlave_operational(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestSlave_operational\n");
 }
 
 void TestSlave_stopped(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestSlave_stopped\n");
 }
 
 void TestSlave_post_sync(CO_Data* d)
 {
+      (void)d;
       eprintf("TestSlave_post_sync\n");
       
       SlaveMap1=1;
@@ -85,6 +91,7 @@ void TestSlave_post_sync(CO_Data* d)
 
 void TestSlave_post_TPDO(CO_Data* d)
 {
+	(void)d;
         SlaveMap13 += 1;
 	eprintf("TestSlave_post_TPDO\n");
 	
@@ -98,6 +105,7 @@ void TestSlave_post_TPDO(CO_Data* d)
 
 void TestSlave_storeODSubIndex(CO_Data* d, UNS16 wIndex, UNS8 bSubindex)
 {
+	(void)d;
 	/*TODO : 
 	 * - call getODEntry for index and subindex, 
 	 * - save content to file, database, flash, nvram, ...
@@ -112,5 +120,6 @@ void TestSlave_storeODSubIndex(CO_Data* d, UNS16 wIndex, UNS8 bSubindex)
 
 void TestSlave_post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg)
 {
+	(void)d;
 	eprintf("Slave received EMCY message. Node: %2.2x  ErrorCode: %4.4x  ErrorRegister: %2.2x\n", nodeID, errCode, errReg);
 }
