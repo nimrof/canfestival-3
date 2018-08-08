@@ -166,7 +166,7 @@ TEST_F(SDO, ServerSegmentedRead)
 	canDispatch(CO, &requestData);
 
 	Test_GetDriverTxCanMessage(&txMsg);
-	Message expectedAccept = { 0x581,0,8,{ 0x41,0x09,0x20,0,11,0,0,0} };
+	Message expectedAccept = { 0x581,0,8,{ 0x41,0x09,0x20,0,10,0,0,0} };
 	EXPECT_EQ(CmpMessage(txMsg, expectedAccept), 0) << "Can Message sent by canFestival does not look OK, transfer reply";
 	//Init done, checking data transfer
 	Message requestData1 = { 0x601,0,8,{ 0x60,0x00,0x00,0x00,0x00,0x00,0x00,0x00 } };
@@ -180,7 +180,7 @@ TEST_F(SDO, ServerSegmentedRead)
 	canDispatch(CO, &requestData2);
 
 	Test_GetDriverTxCanMessage(&txMsg);
-	Message data2 = { 0x581,0,8,{ 0x17,'T','A','!',0,0,0,0 } };
+	Message data2 = { 0x581,0,8,{ 0x19,'T','A','!',0,0,0,0 } };
 	EXPECT_EQ(CmpMessage(txMsg, data2), 0) << "Can Message sent by canFestival does not look OK, data transfer 2";
 }
 TEST_F(SDO, ClientSegmentedWrite)
