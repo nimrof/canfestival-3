@@ -38,7 +38,7 @@ unsigned __stdcall Connection(void* a) {
 
   g_connections.push_back(s);
 
-  printf("Accepted new connection (0x%x).\n");
+  printf("Accepted new connection (0x%x).\n", (unsigned int)s);
   while (1) {
     std::string r = s->ReceiveLine();
     if (r.empty()) break;
