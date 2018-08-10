@@ -24,7 +24,7 @@
 import wx
 
 from types import *
-import os, re, platform, sys, time, traceback, getopt
+import os, platform, sys, time, traceback, getopt
 
 __version__ = "$Revision: 1.48 $"
 
@@ -50,7 +50,6 @@ if __name__ == '__main__':
 ScriptDirectory = os.path.split(os.path.realpath(__file__))[0]
 
 # Import module for internationalization
-import gettext
 import __builtin__
 
 # Get folder containing translation files
