@@ -477,7 +477,9 @@ int main(int argc, char** argv)
 	/* Strip command-line*/
 	for(i=1 ; i<argc ; i++)
 	{
-		if(ProcessCommand(argv[i]) == INIT_ERR) goto init_fail;
+		ret = ProcessCommand(argv[i]);
+		if(ret == INIT_ERR)
+			goto init_fail;
 	}
 
 	/* Enter in a loop to read stdin command until "quit" is called */
