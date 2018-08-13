@@ -17,6 +17,16 @@ syntax: regexp
 syntax: regexp
 \.rej$
 syntax: regexp
+\.vs$
+syntax: regexp
+\bin$
+syntax: regexp
+\Debug$
+syntax: regexp
+\Release$
+syntax: regexp
+\packages$
+syntax: regexp
 ^drivers/can_socket/Makefile$
 syntax: regexp
 ^drivers/timers_unix/Makefile$
