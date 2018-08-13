@@ -1,0 +1,103 @@
+version: 1.0.{build}
+image: Visual Studio 2017 Preview
+shallow_clone: true
+init:
+- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+environment:
+  matrix:
+  - compiler: msvc
+    platform: x86
+    configuration: debug
+  - compiler: msvc
+    platform: x86
+    configuration: release
+  - compiler: msvc
+    platform: x64
+    configuration: debug
+  - compiler: msvc
+    platform: x64
+    configuration: release
+  - compiler: cygwin
+    platform: x86
+  - compiler: cygwin
+    platform: x64
+build_script:
+- ps: >-
+    if($env:compiler -eq "cygwin")
+
+    {
+        if($env:platform -eq "x64")
+        {
+    	    $env:path = "C:\cygwin64\bin;"+$env:path
+        }
+        else
+        {
+    	    $env:path = "C:\cygwin\bin;"+$env:path
+        }
+        bash -c ./configure
+        make
+        $dummy = dir
+    }
+
+    elseif($env:compiler -eq "msvc")
+
+    {
+        write-host Downloading nuget packages
+        nuget restore CanFestival-3.vc15.sln
+
+        write-host installing gnosis util
+        cd objdictgen
+        7z e Gnosis_Utils-current.tar.gz > $null
+        7z x Gnosis_Utils-1.2.2.tar > $null
+        cd Gnosis_Utils-1.2.2
+        python setup.py install > $null
+
+        cd $env:APPVEYOR_BUILD_FOLDER
+        write-host Downloading and unpacking drivers into ./download
+        mkdir download
+        Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+        #Add new drivers here
+        $drivers = @(("http://www.anagate.de/download/API/AnaGateAPI-CAN-1.11-2.13.zip", "download\AnaGateAPI-CAN.zip"),
+                     ("https://www.peak-system.com/fileadmin/media/files/pcan-basic.zip","download\pcan-basic.zip"))
+
+        foreach ($d in $drivers)
+        {
+          $source = $d[0]
+          $destination = "$env:APPVEYOR_BUILD_FOLDER\"+$d[1]
+          Invoke-WebRequest $source -OutFile $destination
+          [System.IO.Compression.ZipFile]::ExtractToDirectory($destination, $destination.Replace(".zip",""))
+        }
+
+        test/external/downloadHippomocks.ps1
+
+        write-host "-------Start build"
+
+        $projectFile = "CanFestival-3.vc15.sln"
+        write-host $env:Configuration
+        write-host $env:Platform
+        msbuild $projectFile /p:Configuration=$env:Configuration /p:Platform=$env:Platform /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    }
+test_script:
+- ps: >-
+    if($env:compiler -eq "cygwin")
+
+    {
+
+
+    }
+
+    elseif($env:compiler -eq "msvc")
+
+    {
+    	if($env:PLATFORM -eq "x64")
+    	{
+    		cd $env:PLATFORM
+    	}
+    	cd $env:CONFIGURATION
+
+    	& "./unitTests.exe" "--gtest_filter=-*HW*:*Test_Anagate*:*Test_Peak*" "--gtest_output=xml"
+    	(new-object net.webclient).UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test_detail.xml))
+    }
+on_failure:
+- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
