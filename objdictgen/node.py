@@ -929,6 +929,7 @@ class Node:
 
     def CompileValue(self, value, index, compute = True):
         if isinstance(value, (StringType, UnicodeType)) and value.upper().find("$NODEID") != -1:
+            base = self.GetBaseIndex(index)
             try:
                 raw = eval(value)
                 if compute:
