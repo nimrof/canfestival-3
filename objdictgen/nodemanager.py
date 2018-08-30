@@ -29,7 +29,7 @@ from node import *
 import eds_utils, gen_cfile
 
 from types import *
-import os, re
+import os, re, json, base64
 
 UndoBufferLength = 20
 
@@ -261,7 +261,7 @@ class NodeManager:
                 node.SetSpecificMenu(AddMenuEntries)
                 return None
             except:
-                return _("Syntax Error\nBad OD Profile file!")
+                return ("Syntax Error\nBad OD Profile file!")
         else:
             # Default profile
             node.SetProfileName("None")
@@ -275,9 +275,12 @@ class NodeManager:
     def OpenFileInCurrent(self, filepath):
         try:
             # Open and load file
-            file = open(filepath, "r")
-            node = load(file)
-            file.close()
+            if(filepath.endswith("od2")):
+                node = self.LoadNodeFromJSON(filepath)
+            else:
+                file = open(filepath, "r")
+                node = load(file)
+                file.close()
             self.CurrentNode = node
             self.CurrentNode.SetNodeID(0)
             # Add a new buffer and defining current state
@@ -298,12 +301,136 @@ class NodeManager:
                 return False
         # Save node in file
         file = open(filepath, "w")
-        dump(self.CurrentNode, file)
+        if(filepath.endswith("od2")):
+            self.SaveNodeToJSON(self.CurrentNode,file)
+        else:
+            dump(self.CurrentNode, file)
         file.close()
         self.SetCurrentFilePath(filepath)
         # Update saved state in buffer
         self.UndoBuffers[self.NodeIndex].CurrentSaved()
         return True
+
+    def LoadNodeFromJSON(self,filepath):
+        ScriptDirectory = os.path.split(os.path.realpath(__file__))[0]
+
+        with open(filepath, 'r') as infile:
+            content = infile.read()
+            data = json.loads(content)
+
+        if(data["version"] != 0.1):
+            raise Exception("unsuported version")
+
+        #base64 encode strings
+        for key, index in data["dictionary"].iteritems():
+            if isinstance(index, list):
+                for ndx, subindex in enumerate(index):
+                    if isinstance(subindex, basestring):
+                        index[ndx] = base64.b64decode(subindex)
+
+        node = Node(profilename = "None")
+        node.SetNodeName(data["name"])
+        node.SetNodeDescription(data["description"])
+        node.SetNodeType(data["type"])
+        node.SetDefaultStringSize(data["defaultStringSize"])
+
+        for key, um in data["usermapping"].iteritems():
+            if 'size' in um.keys():
+                node.AddMappingEntry(int(key),name = um["name"],struct=um["struct"],values=um["values"], default=um["default"], size=um["size"])
+            else:
+                node.AddMappingEntry(int(key),name = um["name"],struct=um["struct"],values=um["values"])
+
+        for profile in data["profiles"]:
+            profilePath = os.path.join(ScriptDirectory, "config",profile+".prf")
+            if profile == 'DS-301':
+                #build in
+                node.ProfileName = profile
+            elif profile == 'DS-302':
+                execfile(profilePath)
+                node.SetDS302Profile(Mapping)
+                node.ExtendSpecificMenu(AddMenuEntries)
+            else:
+                self.LoadProfile(profile,profilePath,node)
+
+        for key in data['dictionary']:
+            entry = data['dictionary'][key]
+            node.AddEntry(int(key), value = entry)
+
+        index = 0xA0
+        node.IsEntry(index)
+        while index < 0x100 and node.IsEntry(index):
+            entry = node.GetEntry(index)
+            type = entry[1]
+
+            customisabletypes = self.GetCustomisableTypes()
+            name, valuetype = customisabletypes[type]
+            size = self.GetEntryInfos(type)["size"]
+            default = self.GetTypeDefaultValue(type)
+            if valuetype == 0:
+                min = entry[2]
+                max = entry[3]
+                node.AddMappingEntry(index, name = "%s[%d-%d]"%(name, min, max), struct = 3, size = size, default = default)
+                node.AddMappingEntry(index, 0, values = {"name" : "Number of Entries", "type" : 0x05, "access" : "ro", "pdo" : False})
+                node.AddMappingEntry(index, 1, values = {"name" : "Type", "type" : 0x05, "access" : "ro", "pdo" : False})
+                node.AddMappingEntry(index, 2, values = {"name" : "Minimum Value", "type" : type, "access" : "ro", "pdo" : False})
+                node.AddMappingEntry(index, 3, values = {"name" : "Maximum Value", "type" : type, "access" : "ro", "pdo" : False})
+            elif valuetype == 1:
+                length = entry[2]
+                node.AddMappingEntry(index, name = "%s%d"%(name, length), struct = 3, size = length * size, default = default)
+                node.AddMappingEntry(index, 0, values = {"name" : "Number of Entries", "type" : 0x05, "access" : "ro", "pdo" : False})
+                node.AddMappingEntry(index, 1, values = {"name" : "Type", "type" : 0x05, "access" : "ro", "pdo" : False})
+                node.AddMappingEntry(index, 2, values = {"name" : "Length", "type" : 0x05, "access" : "ro", "pdo" : False})
+            index += 1
+
+        for pdKey, pdIndex in data["paramsdictionary"].iteritems():
+            for pdSubKey, pdSubIndex in pdIndex.iteritems():
+                if(pdSubKey == "callback"):
+                    node.SetParamsEntry(int(pdKey), callback = pdSubIndex)
+                elif(pdSubKey == "comment"):
+                    node.SetParamsEntry(int(pdKey), comment=pdSubIndex)
+                else:
+                    for paramType, data in pdSubIndex.iteritems():
+                        if(paramType == "comment"):
+                            node.SetParamsEntry(int(pdKey), subIndex = int(pdSubKey), comment = pdSubIndex["comment"])
+                        elif(paramType == "save"):
+                            node.SetParamsEntry(int(pdKey), subIndex = int(pdSubKey), save = pdSubIndex["save"])
+                        else:
+                            print(paramType)
+
+        return node
+
+    def SaveNodeToJSON(self,node,filepath):
+        output = {}
+        output["version"] = 0.1
+        output["name"] = node.Name
+        output["type"] = node.Type
+        output["defaultStringSize"] = node.GetDefaultStringSize()
+
+        output["usermapping"] = node.UserMapping
+        output["dictionary"] = node.Dictionary
+        output["paramsdictionary"] = node.ParamsDictionary
+
+        #base64 encode strings
+        for key, index in output["dictionary"].iteritems():
+            if isinstance(index, list):
+                for ndx, subindex in enumerate(index):
+                    if isinstance(subindex, basestring):
+                        index[ndx] = base64.b64encode(subindex)
+
+        if hasattr(node, 'Description'):
+            output["description"] = (node.Description or "")
+        else:
+            output["description"] = ""
+
+        output['profiles'] = []
+
+        if len(node.DS302) > 0:
+            output['profiles'].append(u'DS-302')
+
+        if node.ProfileName != 'None':
+            output['profiles'].append(node.ProfileName)
+
+        json.dump(output, filepath, sort_keys=True)
 
     """
     Close current state
