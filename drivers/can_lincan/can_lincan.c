@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 #include "canmsg.h"
 #include "lincan.h"
@@ -38,7 +39,7 @@ UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
 
   canmsg.flags = 0; /* Ensure standard receive, not required for LinCAN>=0.3.1 */
   do{
-    res = read(fd0,&canmsg,sizeof(canmsg_t));
+    res = read((intptr_t)fd0,&canmsg,sizeof(canmsg_t));
     if((res<0)&&(errno == -EAGAIN)) res = 0;
   }while(res==0);
 
@@ -81,7 +82,7 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message const *m)
     canmsg.flags |= MSG_EXT;
   }
 
-  res = write(fd0,&canmsg,sizeof(canmsg_t));
+  res = write((intptr_t)fd0,&canmsg,sizeof(canmsg_t));
   if(res!=sizeof(canmsg_t))
     return 1;
 
@@ -112,7 +113,7 @@ UNS8 canChangeBaudRate_driver( CAN_HANDLE fd0, char* baud)
 	params.flags = -1;	// use driver defaults
 	params.sjw = -1;	// use driver defaults
 	params.sample_pt = -1;	// use driver defaults
-	if(ioctl((int)fd0, CONF_BAUDPARAMS, &params) < 0)
+	if(ioctl((intptr_t)fd0, CONF_BAUDPARAMS, &params) < 0)
 	{
 		fprintf(stderr, "canOpen_driver (lincan): IOCTL set speed failed\n");
 		return 0;
@@ -160,7 +161,7 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
 		goto error_ret;
 	}
 
-	return (CAN_HANDLE)fd;
+	return (CAN_HANDLE)(intptr_t)fd;
 
 error_ret:
 	return NULL;
@@ -171,6 +172,6 @@ int canClose_driver(CAN_HANDLE fd0)
 {
   if(!fd0)
     return 0;
-  close(fd0);
+  close((intptr_t)fd0);
   return 0;
 }
