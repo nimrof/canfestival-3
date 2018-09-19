@@ -37,13 +37,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 /*********functions which permit to communicate with the board****************/
 UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
 {
-  int res,i;
+  int res;
   canmsg_t canmsg;
   //long int time_period;
 
 	canmsg.flags = 0; 
 	do{
-   		res = read(fd0,&canmsg,1);
+   		res = read((intptr_t)fd0,&canmsg,1);
    		if((res<0)&&(errno == -EAGAIN)) res = 0;
 	}while(res==0);
 
@@ -97,7 +97,7 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message const *m)
     canmsg.flags |= MSG_EXT;
   }
 
-  res = write(fd0,&canmsg,1);
+  res = write((intptr_t)fd0,&canmsg,1);
   if(res!=1)
     return 1;
 
@@ -125,14 +125,14 @@ UNS8 _canChangeBaudRate( CAN_HANDLE fd, int baud)
     volatile Command_par_t cmd;
     
     cmd.cmd = CMD_STOP;
-    ioctl(fd, COMMAND, &cmd);
+    ioctl((intptr_t)fd, COMMAND, &cmd);
 
 	cfg.target = CONF_TIMING; 
     cfg.val1  = baud;
-    ioctl(fd, CONFIG, &cfg);
+    ioctl((intptr_t)fd, CONFIG, &cfg);
 
     cmd.cmd = CMD_START;
-    ioctl(fd, COMMAND, &cmd);
+    ioctl((intptr_t)fd, COMMAND, &cmd);
     
     return 0;
 }
@@ -179,11 +179,11 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
     goto error_ret;
   }
 	
-  _canChangeBaudRate( (CAN_HANDLE)fd0, res);
+  _canChangeBaudRate( (CAN_HANDLE)(intptr_t)fd0, res);
 
   printf("CAN device dev/can%s opened. Baudrate=>%s\n",board->busname, board->baudrate);
 
-  return (CAN_HANDLE)fd0;
+  return (CAN_HANDLE)(intptr_t)fd0;
 
  error_ret:
   return NULL;
@@ -192,8 +192,8 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
 /***************************************************************************/
 int canClose_driver(CAN_HANDLE fd0)
 {
-  if((int)fd0 != -1) {
-      return close((int)fd0);
+  if((intptr_t)fd0 != -1) {
+      return close((intptr_t)fd0);
   }
 
   return -1;
@@ -201,7 +201,7 @@ int canClose_driver(CAN_HANDLE fd0)
 
 int canfd_driver(CAN_HANDLE fd0)
 {
-        return ((int)fd0);
+        return ((intptr_t)fd0);
 }
 
 

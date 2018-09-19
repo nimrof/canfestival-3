@@ -38,6 +38,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <errno.h>
 #include <fcntl.h>
 
+
 // VSCAN API header
 #include "vs_can_api.h" // for CAN_HANDLE
 
@@ -51,7 +52,7 @@ UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
   DWORD dwRead; /* number of read frames */
 
 
-  if (VSCAN_Read((VSCAN_HANDLE)fd0, Msg, 1, &dwRead) != VSCAN_ERR_OK)
+  if (VSCAN_Read((VSCAN_HANDLE)(intptr_t)fd0, Msg, 1, &dwRead) != VSCAN_ERR_OK)
   {
     printf("canReceive_driver (VScom): error receiving frame)\n");
     return 1;
@@ -102,14 +103,14 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message const *m)
   	Msg[0].Data[i] = m->data[i];         	
 
   /* copy CAN frame to the output buffer */
-  if (!(VSCAN_Write((VSCAN_HANDLE)fd0, Msg, (DWORD)1, &dwWritten) == VSCAN_ERR_OK && dwWritten))
+  if (!(VSCAN_Write((VSCAN_HANDLE)(intptr_t)fd0, Msg, (DWORD)1, &dwWritten) == VSCAN_ERR_OK && dwWritten))
   {
     perror("canSend_driver (VScom): error writing to output buffer.\n");
     return 1;
   }
   
   /* really send CAN frame */
-  if(VSCAN_Flush((VSCAN_HANDLE)fd0) != VSCAN_ERR_OK)
+  if(VSCAN_Flush((VSCAN_HANDLE)(intptr_t)fd0) != VSCAN_ERR_OK)
   {
     perror("canSend_driver (VScom): error flushing.\n");
     return 1;
@@ -120,27 +121,27 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message const *m)
 
 
 /***************************************************************************/
-int TranslateBaudeRate(char* optarg){
-	if(!strcmp( optarg, "1M")) return (int)VSCAN_SPEED_1M;
-	if(!strcmp( optarg, "500K")) return (int)VSCAN_SPEED_500K;
-	if(!strcmp( optarg, "250K")) return (int)VSCAN_SPEED_250K;
-	if(!strcmp( optarg, "125K")) return (int)VSCAN_SPEED_125K;
-	if(!strcmp( optarg, "100K")) return (int)VSCAN_SPEED_100K;
-	if(!strcmp( optarg, "50K")) return (int)VSCAN_SPEED_50K;
-	if(!strcmp( optarg, "20K")) return (int)VSCAN_SPEED_20K;
+void* TranslateBaudeRate(char* optarg){
+	if(!strcmp( optarg, "1M")) return VSCAN_SPEED_1M;
+	if(!strcmp( optarg, "500K")) return VSCAN_SPEED_500K;
+	if(!strcmp( optarg, "250K")) return VSCAN_SPEED_250K;
+	if(!strcmp( optarg, "125K")) return VSCAN_SPEED_125K;
+	if(!strcmp( optarg, "100K")) return VSCAN_SPEED_100K;
+	if(!strcmp( optarg, "50K")) return VSCAN_SPEED_50K;
+	if(!strcmp( optarg, "20K")) return VSCAN_SPEED_20K;
 	if(!strcmp( optarg, "none")) return 0;
 	return 0x0000;
 }
 
 UNS8 canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
 {
-  int baudrate;
+  void* baudrate;
 
   baudrate = TranslateBaudeRate(baud);
   if(baudrate == 0)
     return 0;
 
-  if (VSCAN_Ioctl((VSCAN_HANDLE)fd, VSCAN_IOCTL_SET_SPEED, (void *)baudrate) != VSCAN_ERR_OK)
+  if (VSCAN_Ioctl((VSCAN_HANDLE)(intptr_t)fd, VSCAN_IOCTL_SET_SPEED, baudrate) != VSCAN_ERR_OK)
   {
     fprintf(stderr, "canOpen_driver (VScom): IOCTL set speed failed\n");
     return 0;
@@ -153,35 +154,32 @@ UNS8 canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
 CAN_HANDLE canOpen_driver(s_BOARD *board)
 {
   VSCAN_HANDLE fd0 = 0;
-  char busname[64];
-  char* pEnd;
-  int i;  
-  int baudrate;
+  void* baudrate;
   
   printf("bus %s ", board->busname);
   fd0 = VSCAN_Open(board->busname, VSCAN_MODE_NORMAL);
   if(fd0 <= 0)
   {
     fprintf(stderr, "canOpen_driver (VScom): error opening %s\n", board->busname);
-    return (CAN_HANDLE)fd0;
+    return (CAN_HANDLE)(intptr_t)fd0;
   }
   printf("(fd = %d)\n", fd0);
   baudrate = TranslateBaudeRate(board->baudrate);
   if(baudrate == 0)
     return 0;
 
-  if (VSCAN_Ioctl((VSCAN_HANDLE)fd0, VSCAN_IOCTL_SET_SPEED, (void *)baudrate) != VSCAN_ERR_OK)
+  if (VSCAN_Ioctl((VSCAN_HANDLE)(intptr_t)fd0, VSCAN_IOCTL_SET_SPEED, baudrate) != VSCAN_ERR_OK)
   {
     fprintf(stderr, "canOpen_driver (VScom): IOCTL set speed failed\n");
     return 0;
   }
 
-   return (CAN_HANDLE)fd0;
+   return (CAN_HANDLE)(intptr_t)fd0;
 }
 
 /***************************************************************************/
 int canClose_driver(CAN_HANDLE fd0)
 {
-  VSCAN_Close((VSCAN_HANDLE)fd0);
+  VSCAN_Close((VSCAN_HANDLE)(intptr_t)fd0);
   return 0;
 }
